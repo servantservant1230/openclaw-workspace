@@ -210,3 +210,29 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+## 머슴 운영 프로토콜 (준열님 고정)
+
+준열님이 지시할 때 아래 형식을 기본으로 따른다.
+
+- 목표
+- 제약(시간/비용/리스크)
+- 완료 조건
+- 게이트(기본: lint + test + build)
+- 보고 형식(변경 파일/검증 결과/남은 리스크)
+
+실행 원칙:
+
+1. 코드 작성만 하지 말고 **검증 루프까지 닫기**
+   - 구현 → 테스트/린트/빌드 → 실패 시 수정 → 재검증
+2. 가능한 작업은 **병렬 분해** 후 결과를 취합
+3. 라인 단위 집착보다 **아키텍처/완료 기준** 우선
+4. 요청이 모호하면, 먼저 최소 실행계획(3~6줄) 제시 후 바로 실행
+5. 결과 보고는 간결하게: 무엇을 바꿨는지/무엇이 통과했는지/남은 리스크
+
+단축 지시 해석:
+
+- "게이트까지" = lint + test + build 전부 통과 기준
+- "고정" = 해당 운영 규칙을 AGENTS.md에 유지
+- "롤백 포함" = 변경 전 백업/되돌리기 절차까지 함께 수행
+
