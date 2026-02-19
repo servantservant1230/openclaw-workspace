@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from collections import Counter
 import json
 import re
+import argparse
 import urllib.request
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -457,13 +458,13 @@ def subtitle_agent(script_text: str):
     return "\n".join(blocks)
 
 
-def main():
+def main(topic_limit=3):
     run_id = datetime.now().strftime("%Y%m%d-%H%M%S")
 
     research = research_agent()
     save_json(BASE / "research" / "latest.json", research)
 
-    topics = research.get("selected_topics", [])[:3]
+    topics = research.get("selected_topics", [])[:max(1, topic_limit)]
     bundle = []
 
     for idx, topic in enumerate(topics, start=1):
@@ -534,4 +535,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--topic-limit", type=int, default=3)
+    args = ap.parse_args()
+    main(topic_limit=args.topic_limit)
