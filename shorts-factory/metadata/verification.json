@@ -1,34 +1,16 @@
 {
   "topics": [
     {
-      "risk_level": "Medium",
-      "issues": [
-        {
-          "type": "number_context",
-          "phrase": "30",
-          "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"
-        }
-      ]
+      "risk_level": "Low",
+      "issues": []
     },
     {
-      "risk_level": "Medium",
-      "issues": [
-        {
-          "type": "number_context",
-          "phrase": "30",
-          "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"
-        }
-      ]
+      "risk_level": "Low",
+      "issues": []
     },
     {
-      "risk_level": "Medium",
-      "issues": [
-        {
-          "type": "number_context",
-          "phrase": "30",
-          "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"
-        }
-      ]
+      "risk_level": "Low",
+      "issues": []
     }
   ]
 }

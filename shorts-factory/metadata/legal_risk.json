@@ -2,15 +2,15 @@
   "topics": [
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
-      "risk_level": "Medium"
+      "risk_level": "Low"
     },
     {
       "topic": "환율/달러 관련 최신 금융 이슈",
-      "risk_level": "Medium"
+      "risk_level": "Low"
     },
     {
       "topic": "증시 변동성 관련 최신 금융 이슈",
-      "risk_level": "Medium"
+      "risk_level": "Low"
     }
   ]
 }

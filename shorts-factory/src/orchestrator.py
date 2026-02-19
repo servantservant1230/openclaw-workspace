@@ -399,8 +399,13 @@ def deep_verifier(draft):
 
     # 숫자/날짜 일치성 1차 점검 (문맥 없는 단정 수치 탐지)
     number_hits = re.findall(r"\d+[\.,]?\d*%?|\d+년|\d+월|\d+일", script)
+    unsupported = []
+    facts_part = script.split("[News Facts]")[-1] if "[News Facts]" in script else ""
     for n in number_hits:
-        if "News Facts" in script and n not in script.split("[News Facts]")[-1]:
+        if n not in facts_part:
+            unsupported.append(n)
+    if len(unsupported) >= 2:
+        for n in unsupported:
             issues.append({"type": "number_context", "phrase": n, "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"})
 
     risk_level = "Low"
@@ -476,7 +481,17 @@ def main():
             })
             return
 
-        legal = legal_risk_agent(verified["fixed_script"])
+        # Medium이면 중립화 1회 추가
+        fixed_script = verified["fixed_script"]
+        if verified["risk_level"] == "Medium":
+            fixed_script = fixed_script.replace("핵심만 30초로 보겠습니다.", "핵심 포인트를 짧게 정리해보겠습니다.")
+            fixed_script = fixed_script.replace("우선입니다.", "우선일 수 있습니다.")
+            v2 = deep_verifier({"draft_script": fixed_script})
+            if v2["risk_level"] in {"Low", "Medium"}:
+                verified = v2
+                fixed_script = v2["fixed_script"]
+
+        legal = legal_risk_agent(fixed_script)
         srt = subtitle_agent(legal["final_script"])
 
         (BASE / "outputs" / f"script_topic_{idx}.md").write_text(legal["final_script"])
