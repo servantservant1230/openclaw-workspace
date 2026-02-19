@@ -145,44 +145,68 @@ def extract_keywords(news_items, yt_items, topk=15):
     return prioritized[:topk]
 
 
-def select_topic(keywords, news_items):
-    joined_titles = " ".join([n.get("title", "") for n in news_items]).lower()
-
-    priority_map = [
+def topic_priority_map():
+    return [
         ("금리/연준(Fed)", ["금리", "연준", "fomc", "fed", "rate", "rates", "interest"]),
         ("환율/달러", ["환율", "달러", "원화", "dollar", "fx", "currency", "yen", "won"]),
         ("인플레이션/물가", ["물가", "인플레", "inflation", "prices", "cpi"]),
         ("증시 변동성", ["증시", "코스피", "코스닥", "stocks", "equity", "nasdaq", "s&p", "dow"]),
         ("채권/국채", ["국채", "채권", "treasury", "bond", "yields", "yield"]),
+        ("원자재/에너지", ["유가", "금값", "원자재", "oil", "gold", "commodity"]),
     ]
-    for topic_name, needles in priority_map:
+
+
+def select_topics(keywords, news_items, max_topics=3):
+    joined_titles = " ".join([n.get("title", "") for n in news_items]).lower()
+    topics = []
+    for topic_name, needles in topic_priority_map():
         if any(n in joined_titles for n in needles):
-            return f"{topic_name} 관련 최신 금융 이슈"
+            topics.append(f"{topic_name} 관련 최신 금융 이슈")
+        if len(topics) >= max_topics:
+            break
 
-    for k in keywords:
-        if k not in {"https", "http", "www", "com", "to", "on", "of", "in", "is"}:
-            return f"{k} 관련 최신 금융 이슈"
+    if not topics:
+        for k in keywords:
+            if k not in {"https", "http", "www", "com", "to", "on", "of", "in", "is"}:
+                topics.append(f"{k} 관련 최신 금융 이슈")
+                break
 
-    return "거시경제 변동성 이슈"
+    if not topics:
+        topics = ["거시경제 변동성 이슈"]
+
+    return topics
 
 
-def summarize_news_facts(news_items, topic, limit=3):
-    picked = []
-    topic_tokens = set(tokenize(topic))
-    for n in news_items:
-        t = n["title"]
-        score = len(topic_tokens.intersection(set(tokenize(t))))
-        picked.append((score, n))
-    picked.sort(key=lambda x: x[0], reverse=True)
-
+def summarize_news_facts(news_items, topics, limit_per_topic=3, total_limit=9):
     out = []
-    for _, n in picked[:limit]:
-        fact = n["title"]
-        out.append({
-            "fact": fact,
-            "source_type": "news",
-            "source": n.get("link", "")
-        })
+    seen = set()
+    for topic in topics:
+        topic_tokens = set(tokenize(topic))
+        scored = []
+        for n in news_items:
+            t = n["title"]
+            score = len(topic_tokens.intersection(set(tokenize(t))))
+            scored.append((score, n))
+        scored.sort(key=lambda x: x[0], reverse=True)
+
+        added = 0
+        for _, n in scored:
+            key = n.get("link") or n.get("title")
+            if key in seen:
+                continue
+            seen.add(key)
+            out.append({
+                "topic": topic,
+                "fact": n["title"],
+                "source_type": "news",
+                "source": n.get("link", "")
+            })
+            added += 1
+            if added >= limit_per_topic or len(out) >= total_limit:
+                break
+        if len(out) >= total_limit:
+            break
+
     return out
 
 
@@ -228,15 +252,17 @@ def research_agent():
         except Exception as e:
             yt_errors.append({"feed": feed_url, "error": str(e)})
 
-    keywords = extract_keywords(selected_news, yt_items, topk=15)
-    selected_topic = select_topic(keywords, selected_news)
-    news_summary = summarize_news_facts(selected_news, selected_topic, limit=3)
+    keywords = extract_keywords(selected_news, yt_items, topk=18)
+    selected_topics = select_topics(keywords, selected_news, max_topics=3)
+    selected_topic = selected_topics[0]
+    news_summary = summarize_news_facts(selected_news, selected_topics, limit_per_topic=3, total_limit=9)
     confidence = confidence_level(len(selected_news), len(yt_items), len(keywords))
 
     kr_ratio = (len([n for n in selected_news if has_korean(n.get("title", ""))]) / len(selected_news)) if selected_news else 0.0
 
     return {
         "selected_topic": selected_topic,
+        "selected_topics": selected_topics,
         "keywords": keywords,
         "news_summary": news_summary,
         "confidence": confidence,
