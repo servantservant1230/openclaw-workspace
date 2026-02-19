@@ -207,27 +207,6 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
-## Model Routing Policy (준열님)
-
-Default behavior for this assistant:
-
-- **Fast path (default):** `ollama/gpt-oss:20b`
-  - Short Q&A, formatting, summaries, simple shell/file edits, routine checks
-- **Deep path (upgrade):** `openai-codex/gpt-5.3-codex`
-  - Multi-step planning/architecture, complex debugging, risky refactors, ambiguous requirements, long-context synthesis
-
-Practical trigger rule:
-
-- If task likely needs **3+ reasoning steps**, cross-file/system design decisions, or repeated failed attempts on fast path, upgrade to deep.
-- If deep is unnecessary, stay on fast.
-
-User override phrases (always obey):
-
-- "**fast로**" / "간단 모드" → force fast path
-- "**deep으로**" / "코덱스로" / "어렵게" → force deep path
-
-Keep responses concise about switching; just do it unless user asks for rationale.
-
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
