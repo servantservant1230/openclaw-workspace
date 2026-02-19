@@ -9,11 +9,15 @@ import xml.etree.ElementTree as ET
 BASE = Path(__file__).resolve().parents[1]
 
 NEWS_RSS = [
-    "https://feeds.reuters.com/reuters/businessNews",
+    # Korean finance sources (priority)
+    "https://www.hankyung.com/feed/finance",
+    "https://www.mk.co.kr/rss/40300001/",
+    "https://rss.edaily.co.kr/stock_news.xml",
+    "https://www.fnnews.com/rss/fn_realnews_all.xml",
+    # KR-filtered Google News finance stream
+    "https://news.google.com/rss/search?q=%EA%B8%88%EB%A6%AC+OR+%ED%99%98%EC%9C%A8+OR+%EC%A6%9D%EC%8B%9C+when:1d&hl=ko&gl=KR&ceid=KR:ko",
+    # Global backfill (fallback)
     "https://www.cnbc.com/id/10000664/device/rss/rss.html",
-    "https://www.investing.com/rss/news_25.rss",
-    "https://www.marketwatch.com/rss/topstories",
-    "https://finance.yahoo.com/news/rssindex",
 ]
 
 YOUTUBE_SIGNAL_FEEDS = [
@@ -88,21 +92,31 @@ def tokenize(text: str):
 
 
 def extract_keywords(news_items, yt_items, topk=15):
+    # Korean news 중심으로 가중치 부여, 유튜브는 트렌드 신호로만 약하게 반영
     c = Counter()
-    for row in (news_items + yt_items):
+    for row in news_items:
+        toks = tokenize(f"{row.get('title','')} {row.get('description','')}")
+        c.update(toks)
+        c.update(toks)  # news x2 weight
+
+    for row in yt_items:
         c.update(tokenize(f"{row.get('title','')} {row.get('description','')}"))
 
     blacklist = {
         "to", "on", "of", "in", "is", "as", "at", "by", "an", "be", "it", "or", "if", "more",
-        "follow", "bloomberg", "cnbc", "youtube", "channel", "official", "watch"
+        "follow", "bloomberg", "cnbc", "youtube", "channel", "official", "watch",
+        "https", "http", "www", "com"
     }
 
     finance_priority = [
+        # Korean first
+        "금리", "환율", "달러", "원화", "물가", "인플레", "증시", "코스피", "코스닥", "국채", "채권", "연준",
+        # English fallback
         "fed", "rate", "rates", "interest", "fomc", "inflation", "cpi", "dollar", "fx", "currency",
-        "treasury", "bond", "yield", "stocks", "equity", "gold", "bitcoin", "oil", "walmart", "earnings"
+        "treasury", "bond", "yield", "stocks", "equity", "gold", "bitcoin", "oil", "earnings"
     ]
 
-    ranked = [k for k, _ in c.most_common(120) if k not in blacklist]
+    ranked = [k for k, _ in c.most_common(160) if k not in blacklist]
 
     prioritized = []
     for p in finance_priority:
@@ -121,11 +135,11 @@ def select_topic(keywords, news_items):
     joined_titles = " ".join([n.get("title", "") for n in news_items]).lower()
 
     priority_map = [
-        ("금리/연준(Fed)", ["fed", "fomc", "rate", "rates", "interest"]),
-        ("환율/달러", ["dollar", "fx", "currency", "yen", "won"]),
-        ("인플레이션/물가", ["inflation", "prices", "cpi"]),
-        ("증시 변동성", ["stocks", "equity", "nasdaq", "s&p", "dow"]),
-        ("채권/국채", ["treasury", "bond", "yields", "yield"]),
+        ("금리/연준(Fed)", ["금리", "연준", "fomc", "fed", "rate", "rates", "interest"]),
+        ("환율/달러", ["환율", "달러", "원화", "dollar", "fx", "currency", "yen", "won"]),
+        ("인플레이션/물가", ["물가", "인플레", "inflation", "prices", "cpi"]),
+        ("증시 변동성", ["증시", "코스피", "코스닥", "stocks", "equity", "nasdaq", "s&p", "dow"]),
+        ("채권/국채", ["국채", "채권", "treasury", "bond", "yields", "yield"]),
     ]
     for topic_name, needles in priority_map:
         if any(n in joined_titles for n in needles):

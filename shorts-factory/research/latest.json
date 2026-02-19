@@ -1,47 +1,47 @@
 {
   "selected_topic": "금리/연준(Fed) 관련 최신 금융 이슈",
   "keywords": [
+    "금리",
+    "금리인하",
+    "뉴욕증시",
+    "코스피",
     "federal",
     "fed",
     "rates",
     "interest",
+    "fomc",
     "dollar",
     "bitcoin",
     "ai",
+    "nbsp",
     "not",
-    "system",
-    "consumer",
-    "reserve",
-    "up",
-    "through",
-    "richard",
-    "connect"
+    "19일"
   ],
   "news_summary": [
     {
-      "fact": "Fed officials split on where interest rates should go, minutes say",
+      "fact": "미 Fed 회의록 \"금리 상향 조정\" 언급에...한은 금통위 ‘동결’ 무게 - 중앙일보",
       "source_type": "news",
-      "source": "https://www.cnbc.com/2026/02/18/fed-minutes-january-2026.html"
+      "source": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1MN0pSWE4tUnBvMGdiRGo2R05uU2ZzZlJJTUJXUmNNS3BLWmlfdU0zdEQ3a3JCVWFHTTJQWkM5MTRHbGp3c1VBZndRcVlHX2dYN256NjZn?oc=5"
     },
     {
-      "fact": "David Einhorn says the Fed will cut 'substantially more' than two times. So he's betting big on gold",
+      "fact": "이란 ‘전운’에 美금리 불확실성까지…국제유가·금값도 급등",
       "source_type": "news",
-      "source": "https://www.cnbc.com/2026/02/11/david-einhorn-says-the-fed-will-cut-substantially-more-than-two-times-so-hes-betting-big-on-gold.html"
+      "source": "https://www.mk.co.kr/news/stock/11966718"
     },
     {
-      "fact": "U.S. stocks slip after hawkish Fed minutes; Walmart guidance falls short",
+      "fact": "미 달러화 강세…FOMC '금리 인상' 시나리오 여파 | - 연합인포맥스",
       "source_type": "news",
-      "source": "https://www.investing.com/news/stock-market-news/us-stock-futures-muted-as-rate-uncertainty-persists-walmart-earnings-on-tap-4512481"
+      "source": "https://news.google.com/rss/articles/CBMidEFVX3lxTE11YUllbXI2ekZTNWU0WXVRNmg0ZEtPMXlUM0d0NTFacmZ5MGpjOUZxbGMxWHdFYW5hS2NRUE1mdnhmM0d2NUR1a0ljMzdNRmZzVWNaV2hneHhkcUwzRC1ockUyX3pTZURkUjBiRjBSWHczQm9j?oc=5"
     }
   ],
   "confidence": "high",
   "signals": {
-    "news_count": 40,
+    "news_count": 50,
     "youtube_signal_count": 30,
     "rss_errors": [
       {
-        "url": "https://feeds.reuters.com/reuters/businessNews",
-        "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+        "url": "https://www.fnnews.com/rss/fn_realnews_all.xml",
+        "error": "HTTP Error 404: "
       }
     ],
     "youtube_errors": [],
