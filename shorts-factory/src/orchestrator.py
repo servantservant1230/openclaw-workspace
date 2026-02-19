@@ -4,6 +4,7 @@ from collections import Counter
 import json
 import re
 import urllib.request
+import urllib.parse
 import xml.etree.ElementTree as ET
 
 BASE = Path(__file__).resolve().parents[1]
@@ -21,11 +22,10 @@ NEWS_RSS = [
 ]
 
 YOUTUBE_SIGNAL_FEEDS = [
+    # stable channel feeds (title/desc signal only)
     "https://www.youtube.com/feeds/videos.xml?channel_id=UCIALMKvObZNtJ6AmdCLP7Lg",  # Bloomberg TV
     "https://www.youtube.com/feeds/videos.xml?channel_id=UCvJJ_dzjViJCoLf5uKUTwoA",  # CNBC
     "https://www.youtube.com/feeds/videos.xml?channel_id=UCEAZeUIeJs0IjQiqTCdVSIg",  # Yahoo Finance
-    "https://www.youtube.com/feeds/videos.xml?channel_id=UCAzhpt9DmG6PnHXjmJTvRGQ",  # The Financial Diet
-    "https://www.youtube.com/feeds/videos.xml?channel_id=UCFCEuCsyWP0YkP3CZ3Mr01Q",  # New Money
 ]
 
 KOR_STOPWORDS = {
@@ -66,8 +66,15 @@ def parse_rss_items(root, limit=12):
         title = clean_text(it.findtext("title", ""))
         desc = clean_text(it.findtext("description", ""))
         link = clean_text(it.findtext("link", ""))
+        pub_date = clean_text(it.findtext("pubDate", ""))
         if title:
-            items.append({"title": title, "description": desc, "link": link, "source_type": "news"})
+            items.append({
+                "title": title,
+                "description": desc,
+                "link": link,
+                "pub_date": pub_date,
+                "source_type": "news"
+            })
     return items
 
 
@@ -77,10 +84,17 @@ def parse_atom_entries(root, limit=12):
     for en in root.findall("a:entry", ns)[:limit]:
         title = clean_text(en.findtext("a:title", "", ns))
         desc = clean_text(en.findtext("m:group/m:description", "", ns))
+        published = clean_text(en.findtext("a:published", "", ns))
         link_node = en.find("a:link", ns)
         link = link_node.attrib.get("href", "") if link_node is not None else ""
         if title:
-            entries.append({"title": title, "description": desc, "link": link, "source_type": "youtube_signal"})
+            entries.append({
+                "title": title,
+                "description": desc,
+                "link": link,
+                "published": published,
+                "source_type": "youtube_signal"
+            })
     return entries
 
 
@@ -95,17 +109,17 @@ def extract_keywords(news_items, yt_items, topk=15):
     # Korean news 중심으로 가중치 부여, 유튜브는 트렌드 신호로만 약하게 반영
     c = Counter()
     for row in news_items:
-        toks = tokenize(f"{row.get('title','')} {row.get('description','')}")
+        toks = tokenize(f"{row.get('title','')}")
         c.update(toks)
         c.update(toks)  # news x2 weight
 
     for row in yt_items:
-        c.update(tokenize(f"{row.get('title','')} {row.get('description','')}"))
+        c.update(tokenize(f"{row.get('title','')}"))
 
     blacklist = {
         "to", "on", "of", "in", "is", "as", "at", "by", "an", "be", "it", "or", "if", "more",
         "follow", "bloomberg", "cnbc", "youtube", "channel", "official", "watch",
-        "https", "http", "www", "com"
+        "https", "http", "www", "com", "nbsp", "connect", "facebook"
     }
 
     finance_priority = [
@@ -180,15 +194,30 @@ def confidence_level(news_count, yt_count, keyword_count):
     return "low"
 
 
+def has_korean(text: str) -> bool:
+    return bool(re.search(r"[가-힣]", text or ""))
+
+
 def research_agent():
-    news_items = []
+    news_items_all = []
     rss_errors = []
     for url in NEWS_RSS:
         try:
             root = fetch_xml(url)
-            news_items.extend(parse_rss_items(root, limit=10))
+            news_items_all.extend(parse_rss_items(root, limit=10))
         except Exception as e:
             rss_errors.append({"url": url, "error": str(e)})
+
+    # 한국어 소스 비중 90% 목표
+    kr_news = [n for n in news_items_all if has_korean(n.get("title", ""))]
+    non_kr_news = [n for n in news_items_all if not has_korean(n.get("title", ""))]
+
+    # KR 90% 이상 강제: KR 기사 개수 중심으로 총량을 잡는다.
+    base_total = min(max(len(kr_news), 12), 45)
+    non_kr_cap = max(1, int(base_total * 0.1))
+
+    selected_news = kr_news[:base_total]
+    selected_news.extend(non_kr_news[:non_kr_cap])
 
     yt_items = []
     yt_errors = []
@@ -199,10 +228,12 @@ def research_agent():
         except Exception as e:
             yt_errors.append({"feed": feed_url, "error": str(e)})
 
-    keywords = extract_keywords(news_items, yt_items, topk=15)
-    selected_topic = select_topic(keywords, news_items)
-    news_summary = summarize_news_facts(news_items, selected_topic, limit=3)
-    confidence = confidence_level(len(news_items), len(yt_items), len(keywords))
+    keywords = extract_keywords(selected_news, yt_items, topk=15)
+    selected_topic = select_topic(keywords, selected_news)
+    news_summary = summarize_news_facts(selected_news, selected_topic, limit=3)
+    confidence = confidence_level(len(selected_news), len(yt_items), len(keywords))
+
+    kr_ratio = (len([n for n in selected_news if has_korean(n.get("title", ""))]) / len(selected_news)) if selected_news else 0.0
 
     return {
         "selected_topic": selected_topic,
@@ -210,8 +241,9 @@ def research_agent():
         "news_summary": news_summary,
         "confidence": confidence,
         "signals": {
-            "news_count": len(news_items),
+            "news_count": len(selected_news),
             "youtube_signal_count": len(yt_items),
+            "kr_news_ratio": round(kr_ratio, 3),
             "rss_errors": rss_errors,
             "youtube_errors": yt_errors,
             "youtube_note": "유튜브는 제목/설명 기반 트렌드 신호로만 사용, 직접 인용 금지"
@@ -253,7 +285,18 @@ def deep_verifier(draft):
     if "News Facts" not in script:
         issues.append({"type": "fact_traceability", "phrase": "news facts missing", "fix": "근거 뉴스 문장 포함"})
 
-    risk_level = "High" if any(i["type"] != "overclaim" for i in issues) else ("Medium" if issues else "Low")
+    # 숫자/날짜 일치성 1차 점검 (문맥 없는 단정 수치 탐지)
+    number_hits = re.findall(r"\d+[\.,]?\d*%?|\d+년|\d+월|\d+일", script)
+    for n in number_hits:
+        if "News Facts" in script and n not in script.split("[News Facts]")[-1]:
+            issues.append({"type": "number_context", "phrase": n, "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"})
+
+    risk_level = "Low"
+    if any(i["type"] in {"fact_traceability", "number_context"} for i in issues):
+        risk_level = "High"
+    elif issues:
+        risk_level = "Medium"
+
     fixed = script
     for it in issues:
         if it["type"] == "overclaim":
