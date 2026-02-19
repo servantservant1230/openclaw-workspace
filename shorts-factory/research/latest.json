@@ -1,0 +1,20 @@
+{
+  "selected_topic": "미국 금리 동결과 원화 변동성",
+  "keywords": [
+    "금리",
+    "환율",
+    "물가",
+    "연준"
+  ],
+  "news_summary": [
+    {
+      "fact": "연준이 기준금리를 동결했다",
+      "source_type": "news"
+    },
+    {
+      "fact": "원/달러 환율 변동성이 확대됐다",
+      "source_type": "news"
+    }
+  ],
+  "confidence": "medium"
+}

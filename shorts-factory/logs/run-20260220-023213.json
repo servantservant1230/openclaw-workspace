@@ -1,0 +1,12 @@
+{
+  "status": "completed",
+  "risk_level": "Low",
+  "artifacts": [
+    "research/latest.json",
+    "metadata/plan.json",
+    "metadata/verification.json",
+    "metadata/legal_risk.json",
+    "outputs/script_final.md",
+    "subtitles/latest.srt"
+  ]
+}
