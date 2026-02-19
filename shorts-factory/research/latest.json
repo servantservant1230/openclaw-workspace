@@ -1,20 +1,50 @@
 {
-  "selected_topic": "미국 금리 동결과 원화 변동성",
+  "selected_topic": "금리/연준(Fed) 관련 최신 금융 이슈",
   "keywords": [
-    "금리",
-    "환율",
-    "물가",
-    "연준"
+    "federal",
+    "fed",
+    "rates",
+    "interest",
+    "dollar",
+    "bitcoin",
+    "ai",
+    "not",
+    "system",
+    "consumer",
+    "reserve",
+    "up",
+    "through",
+    "richard",
+    "connect"
   ],
   "news_summary": [
     {
-      "fact": "연준이 기준금리를 동결했다",
-      "source_type": "news"
+      "fact": "Fed officials split on where interest rates should go, minutes say",
+      "source_type": "news",
+      "source": "https://www.cnbc.com/2026/02/18/fed-minutes-january-2026.html"
     },
     {
-      "fact": "원/달러 환율 변동성이 확대됐다",
-      "source_type": "news"
+      "fact": "David Einhorn says the Fed will cut 'substantially more' than two times. So he's betting big on gold",
+      "source_type": "news",
+      "source": "https://www.cnbc.com/2026/02/11/david-einhorn-says-the-fed-will-cut-substantially-more-than-two-times-so-hes-betting-big-on-gold.html"
+    },
+    {
+      "fact": "U.S. stocks slip after hawkish Fed minutes; Walmart guidance falls short",
+      "source_type": "news",
+      "source": "https://www.investing.com/news/stock-market-news/us-stock-futures-muted-as-rate-uncertainty-persists-walmart-earnings-on-tap-4512481"
     }
   ],
-  "confidence": "medium"
+  "confidence": "high",
+  "signals": {
+    "news_count": 40,
+    "youtube_signal_count": 30,
+    "rss_errors": [
+      {
+        "url": "https://feeds.reuters.com/reuters/businessNews",
+        "error": "<urlopen error [Errno 8] nodename nor servname provided, or not known>"
+      }
+    ],
+    "youtube_errors": [],
+    "youtube_note": "유튜브는 제목/설명 기반 트렌드 신호로만 사용, 직접 인용 금지"
+  }
 }

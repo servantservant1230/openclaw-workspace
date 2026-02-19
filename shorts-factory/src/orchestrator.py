@@ -1,8 +1,41 @@
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
+from collections import Counter
 import json
+import re
+import urllib.request
+import xml.etree.ElementTree as ET
 
 BASE = Path(__file__).resolve().parents[1]
+
+NEWS_RSS = [
+    "https://feeds.reuters.com/reuters/businessNews",
+    "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+    "https://www.investing.com/rss/news_25.rss",
+    "https://www.marketwatch.com/rss/topstories",
+    "https://finance.yahoo.com/news/rssindex",
+]
+
+YOUTUBE_SIGNAL_FEEDS = [
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCIALMKvObZNtJ6AmdCLP7Lg",  # Bloomberg TV
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCvJJ_dzjViJCoLf5uKUTwoA",  # CNBC
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCEAZeUIeJs0IjQiqTCdVSIg",  # Yahoo Finance
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCAzhpt9DmG6PnHXjmJTvRGQ",  # The Financial Diet
+    "https://www.youtube.com/feeds/videos.xml?channel_id=UCFCEuCsyWP0YkP3CZ3Mr01Q",  # New Money
+]
+
+KOR_STOPWORDS = {
+    "그리고", "하지만", "대한", "관련", "이슈", "시장", "오늘", "최근", "기자", "뉴스",
+    "대한민국", "에서", "으로", "까지", "했다", "한다", "있다", "없다",
+    "with", "the", "this", "that", "from", "into", "about", "video", "breaking", "news", "update",
+    "and", "for", "are", "was", "were", "will", "its", "their", "has", "have", "had",
+    "after", "before", "amid", "over", "under", "than", "into", "out", "how", "why",
+    "what", "when", "where", "which", "your", "you", "his", "her", "our", "they",
+    "stock", "stocks", "market", "markets", "finance", "financial", "money", "today",
+    "live", "podcast", "episode", "watch", "shows", "show", "new", "latest"
+}
+
+DISCLAIMER = "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다."
 
 
 def save_json(path: Path, data: dict):
@@ -10,52 +43,207 @@ def save_json(path: Path, data: dict):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2))
 
 
+def fetch_xml(url: str, timeout: int = 12):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        raw = r.read()
+    return ET.fromstring(raw)
+
+
+def clean_text(s: str) -> str:
+    s = re.sub(r"<[^>]+>", " ", s or "")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def parse_rss_items(root, limit=12):
+    items = []
+    for it in root.findall(".//item")[:limit]:
+        title = clean_text(it.findtext("title", ""))
+        desc = clean_text(it.findtext("description", ""))
+        link = clean_text(it.findtext("link", ""))
+        if title:
+            items.append({"title": title, "description": desc, "link": link, "source_type": "news"})
+    return items
+
+
+def parse_atom_entries(root, limit=12):
+    ns = {"a": "http://www.w3.org/2005/Atom", "m": "http://search.yahoo.com/mrss/"}
+    entries = []
+    for en in root.findall("a:entry", ns)[:limit]:
+        title = clean_text(en.findtext("a:title", "", ns))
+        desc = clean_text(en.findtext("m:group/m:description", "", ns))
+        link_node = en.find("a:link", ns)
+        link = link_node.attrib.get("href", "") if link_node is not None else ""
+        if title:
+            entries.append({"title": title, "description": desc, "link": link, "source_type": "youtube_signal"})
+    return entries
+
+
+def tokenize(text: str):
+    text = re.sub(r"https?://\S+", " ", text.lower())
+    text = re.sub(r"[^0-9A-Za-z가-힣 ]", " ", text)
+    toks = [t for t in text.split() if len(t) >= 2 and t not in KOR_STOPWORDS and not t.isdigit()]
+    return toks
+
+
+def extract_keywords(news_items, yt_items, topk=15):
+    c = Counter()
+    for row in (news_items + yt_items):
+        c.update(tokenize(f"{row.get('title','')} {row.get('description','')}"))
+
+    blacklist = {
+        "to", "on", "of", "in", "is", "as", "at", "by", "an", "be", "it", "or", "if", "more",
+        "follow", "bloomberg", "cnbc", "youtube", "channel", "official", "watch"
+    }
+
+    finance_priority = [
+        "fed", "rate", "rates", "interest", "fomc", "inflation", "cpi", "dollar", "fx", "currency",
+        "treasury", "bond", "yield", "stocks", "equity", "gold", "bitcoin", "oil", "walmart", "earnings"
+    ]
+
+    ranked = [k for k, _ in c.most_common(120) if k not in blacklist]
+
+    prioritized = []
+    for p in finance_priority:
+        for k in ranked:
+            if p in k and k not in prioritized:
+                prioritized.append(k)
+
+    for k in ranked:
+        if k not in prioritized:
+            prioritized.append(k)
+
+    return prioritized[:topk]
+
+
+def select_topic(keywords, news_items):
+    joined_titles = " ".join([n.get("title", "") for n in news_items]).lower()
+
+    priority_map = [
+        ("금리/연준(Fed)", ["fed", "fomc", "rate", "rates", "interest"]),
+        ("환율/달러", ["dollar", "fx", "currency", "yen", "won"]),
+        ("인플레이션/물가", ["inflation", "prices", "cpi"]),
+        ("증시 변동성", ["stocks", "equity", "nasdaq", "s&p", "dow"]),
+        ("채권/국채", ["treasury", "bond", "yields", "yield"]),
+    ]
+    for topic_name, needles in priority_map:
+        if any(n in joined_titles for n in needles):
+            return f"{topic_name} 관련 최신 금융 이슈"
+
+    for k in keywords:
+        if k not in {"https", "http", "www", "com", "to", "on", "of", "in", "is"}:
+            return f"{k} 관련 최신 금융 이슈"
+
+    return "거시경제 변동성 이슈"
+
+
+def summarize_news_facts(news_items, topic, limit=3):
+    picked = []
+    topic_tokens = set(tokenize(topic))
+    for n in news_items:
+        t = n["title"]
+        score = len(topic_tokens.intersection(set(tokenize(t))))
+        picked.append((score, n))
+    picked.sort(key=lambda x: x[0], reverse=True)
+
+    out = []
+    for _, n in picked[:limit]:
+        fact = n["title"]
+        out.append({
+            "fact": fact,
+            "source_type": "news",
+            "source": n.get("link", "")
+        })
+    return out
+
+
+def confidence_level(news_count, yt_count, keyword_count):
+    if news_count >= 12 and yt_count >= 10 and keyword_count >= 10:
+        return "high"
+    if news_count >= 6 and keyword_count >= 6:
+        return "medium"
+    return "low"
+
+
 def research_agent():
-    # TODO: RSS/YouTube 메타 수집 구현
+    news_items = []
+    rss_errors = []
+    for url in NEWS_RSS:
+        try:
+            root = fetch_xml(url)
+            news_items.extend(parse_rss_items(root, limit=10))
+        except Exception as e:
+            rss_errors.append({"url": url, "error": str(e)})
+
+    yt_items = []
+    yt_errors = []
+    for feed_url in YOUTUBE_SIGNAL_FEEDS:
+        try:
+            root = fetch_xml(feed_url)
+            yt_items.extend(parse_atom_entries(root, limit=6))
+        except Exception as e:
+            yt_errors.append({"feed": feed_url, "error": str(e)})
+
+    keywords = extract_keywords(news_items, yt_items, topk=15)
+    selected_topic = select_topic(keywords, news_items)
+    news_summary = summarize_news_facts(news_items, selected_topic, limit=3)
+    confidence = confidence_level(len(news_items), len(yt_items), len(keywords))
+
     return {
-        "selected_topic": "미국 금리 동결과 원화 변동성",
-        "keywords": ["금리", "환율", "물가", "연준"],
-        "news_summary": [
-            {"fact": "연준이 기준금리를 동결했다", "source_type": "news"},
-            {"fact": "원/달러 환율 변동성이 확대됐다", "source_type": "news"}
-        ],
-        "confidence": "medium"
+        "selected_topic": selected_topic,
+        "keywords": keywords,
+        "news_summary": news_summary,
+        "confidence": confidence,
+        "signals": {
+            "news_count": len(news_items),
+            "youtube_signal_count": len(yt_items),
+            "rss_errors": rss_errors,
+            "youtube_errors": yt_errors,
+            "youtube_note": "유튜브는 제목/설명 기반 트렌드 신호로만 사용, 직접 인용 금지"
+        }
     }
 
 
 def planner(research):
+    topic = research.get("selected_topic", "금융 이슈")
+    k = research.get("keywords", [])[:4]
     return {
-        "hook": "이번 주 금융시장에서 가장 중요한 신호 하나만 짚겠습니다.",
+        "hook": f"지금 시장에서 놓치기 쉬운 {topic}, 핵심만 30초로 보겠습니다.",
         "core": [
-            "금리 동결이 시장 심리에 미친 영향",
-            "환율 변동성과 개인에게 미치는 체감 포인트"
+            f"키워드 흐름: {', '.join(k) if k else '거시지표'}",
+            "핵심 뉴스 3건에서 공통으로 반복되는 포인트",
+            "개인에게 미칠 수 있는 실질 영향(지출/환율/금리)"
         ],
-        "cta": "내 상황에서는 어떤 리스크가 큰지 먼저 점검해보세요."
+        "cta": "지금은 방향성 예측보다 내 리스크 노출 점검이 우선입니다."
     }
 
 
 def script_agent(plan, research):
+    facts = [n.get("fact", "") for n in research.get("news_summary", [])]
+    facts_text = "\n".join([f"- {f}" for f in facts])
     return {
-        "draft_script": """[Hook]\n이번 주 금융시장에서 중요한 신호 하나만 보겠습니다.\n\n[Core]\n연준의 금리 동결 이후, 시장은 안도와 경계를 동시에 반영하고 있습니다.\n특히 환율 변동성이 커지면 체감 물가와 해외결제 부담에 영향이 갈 수 있습니다.\n핵심은 숫자 하나보다, 내 지출 구조가 환율 변화에 얼마나 민감한지 점검하는 것입니다.\n\n[CTA]\n지금은 수익 기대보다 리스크 관리 기준부터 세워보세요."""
+        "draft_script": f"""[Hook]\n{plan['hook']}\n\n[Core]\n{plan['core'][0]}\n{plan['core'][1]}\n{plan['core'][2]}\n\n[News Facts]\n{facts_text}\n\n[CTA]\n{plan['cta']}"""
     }
 
 
 def deep_verifier(draft):
-    # 당분간 외부 검증 API를 호출하지 않고,
-    # Codex 오케스트레이터가 직접 사실/표현/제도 리스크를 점검한다.
-    # (현재 MVP에서는 규칙 기반 1차 검증 + 운영자 검수 기록 구조)
     script = draft["draft_script"]
     issues = []
 
-    risky_phrases = ["무조건", "확정 수익", "반드시 오른다", "100%", "지금 사야"]
+    risky_phrases = ["무조건", "확정 수익", "반드시 오른다", "100%", "지금 사야", "원금 보장"]
     for p in risky_phrases:
         if p in script:
             issues.append({"type": "overclaim", "phrase": p, "fix": "단정 표현 완화"})
 
-    risk_level = "High" if issues else "Low"
+    if "News Facts" not in script:
+        issues.append({"type": "fact_traceability", "phrase": "news facts missing", "fix": "근거 뉴스 문장 포함"})
+
+    risk_level = "High" if any(i["type"] != "overclaim" for i in issues) else ("Medium" if issues else "Low")
     fixed = script
     for it in issues:
-        fixed = fixed.replace(it["phrase"], "가능성이 있습니다")
+        if it["type"] == "overclaim":
+            fixed = fixed.replace(it["phrase"], "가능성이 있습니다")
 
     return {
         "issues": issues,
@@ -66,24 +254,30 @@ def deep_verifier(draft):
 
 
 def legal_risk_agent(script_text: str):
-    disclaimer = "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다."
+    banned = ["투자 추천", "매수하세요", "지금 사세요", "수익 보장"]
+    out = script_text
+    for b in banned:
+        out = out.replace(b, "신중히 검토하세요")
     return {
         "risk_level": "Low",
-        "final_script": script_text + "\n\n" + disclaimer
+        "final_script": out + "\n\n" + DISCLAIMER
     }
 
 
 def subtitle_agent(script_text: str):
-    # TODO: 2~3초 분할 고도화
     lines = [l.strip() for l in script_text.splitlines() if l.strip()]
     blocks = []
     t = 0
-    for idx, line in enumerate(lines, start=1):
-        start = f"00:00:{t:02d},000"
-        t2 = t + 3
-        end = f"00:00:{t2:02d},000"
-        blocks.append(f"{idx}\n{start} --> {end}\n{line}\n")
-        t = t2
+    idx = 1
+    for line in lines:
+        chunks = re.findall(r".{1,28}(?:\s|$)", line)
+        chunks = [c.strip() for c in chunks if c.strip()]
+        for c in chunks:
+            start = f"00:00:{t:02d},000"
+            end = f"00:00:{t+3:02d},000"
+            blocks.append(f"{idx}\n{start} --> {end}\n{c}\n")
+            idx += 1
+            t += 3
     return "\n".join(blocks)
 
 
@@ -103,7 +297,11 @@ def main():
     save_json(BASE / "metadata" / "verification.json", verified)
 
     if verified["risk_level"] == "High":
-        save_json(BASE / "logs" / f"run-{run_id}.json", {"status": "stopped", "reason": "risk_high"})
+        save_json(BASE / "logs" / f"run-{run_id}.json", {
+            "status": "stopped",
+            "reason": "risk_high",
+            "time": datetime.now(timezone.utc).isoformat()
+        })
         return
 
     legal = legal_risk_agent(verified["fixed_script"])
@@ -116,6 +314,7 @@ def main():
     save_json(BASE / "logs" / f"run-{run_id}.json", {
         "status": "completed",
         "risk_level": legal["risk_level"],
+        "time": datetime.now(timezone.utc).isoformat(),
         "artifacts": [
             "research/latest.json",
             "metadata/plan.json",

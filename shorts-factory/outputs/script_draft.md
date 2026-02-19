@@ -1,10 +1,15 @@
 [Hook]
-이번 주 금융시장에서 중요한 신호 하나만 보겠습니다.
+지금 시장에서 놓치기 쉬운 금리/연준(Fed) 관련 최신 금융 이슈, 핵심만 30초로 보겠습니다.
 
 [Core]
-연준의 금리 동결 이후, 시장은 안도와 경계를 동시에 반영하고 있습니다.
-특히 환율 변동성이 커지면 체감 물가와 해외결제 부담에 영향이 갈 수 있습니다.
-핵심은 숫자 하나보다, 내 지출 구조가 환율 변화에 얼마나 민감한지 점검하는 것입니다.
+키워드 흐름: federal, fed, rates, interest
+핵심 뉴스 3건에서 공통으로 반복되는 포인트
+개인에게 미칠 수 있는 실질 영향(지출/환율/금리)
+
+[News Facts]
+- Fed officials split on where interest rates should go, minutes say
+- David Einhorn says the Fed will cut 'substantially more' than two times. So he's betting big on gold
+- U.S. stocks slip after hawkish Fed minutes; Walmart guidance falls short
 
 [CTA]
-지금은 수익 기대보다 리스크 관리 기준부터 세워보세요.
+지금은 방향성 예측보다 내 리스크 노출 점검이 우선입니다.

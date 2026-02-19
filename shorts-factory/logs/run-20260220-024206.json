@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "risk_level": "Low",
+  "time": "2026-02-19T17:42:09.980669+00:00",
+  "artifacts": [
+    "research/latest.json",
+    "metadata/plan.json",
+    "metadata/verification.json",
+    "metadata/legal_risk.json",
+    "outputs/script_final.md",
+    "subtitles/latest.srt"
+  ]
+}
