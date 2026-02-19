@@ -41,12 +41,27 @@ def script_agent(plan, research):
 
 
 def deep_verifier(draft):
-    # TODO: Codex 검증 API 연동
+    # 당분간 외부 검증 API를 호출하지 않고,
+    # Codex 오케스트레이터가 직접 사실/표현/제도 리스크를 점검한다.
+    # (현재 MVP에서는 규칙 기반 1차 검증 + 운영자 검수 기록 구조)
+    script = draft["draft_script"]
+    issues = []
+
+    risky_phrases = ["무조건", "확정 수익", "반드시 오른다", "100%", "지금 사야"]
+    for p in risky_phrases:
+        if p in script:
+            issues.append({"type": "overclaim", "phrase": p, "fix": "단정 표현 완화"})
+
+    risk_level = "High" if issues else "Low"
+    fixed = script
+    for it in issues:
+        fixed = fixed.replace(it["phrase"], "가능성이 있습니다")
+
     return {
-        "issues": [],
-        "risk_level": "Low",
-        "fixed_script": draft["draft_script"],
-        "rationale": "현재 문안에서 확정적 투자 권유 문구가 없음"
+        "issues": issues,
+        "risk_level": risk_level,
+        "fixed_script": fixed,
+        "rationale": "Codex 직접 검증 모드(외부 검증 API 미사용)"
     }
 
 

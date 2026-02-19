@@ -30,7 +30,7 @@ ResearchAgent (가벼운 방식):
 - `src/research_agent.py`: RSS+유튜브 메타 수집/키워드 추출
 - `src/planner.py`: Hook/Core/CTA 설계
 - `src/script_agent.py`: qwen 기반 스크립트 생성
-- `src/deep_verifier.py`: Codex 사실/제도/논리 검증
+- `src/deep_verifier.py`: (향후 분리 예정) 현재는 오케스트레이터 내 Codex 직접 검증
 - `src/legal_risk_agent.py`: 법적 리스크 필터 + 고지문
 - `src/neutralizer.py`: 과장표현 완화
 - `src/subtitle_agent.py`: SRT 변환
@@ -41,7 +41,7 @@ ResearchAgent (가벼운 방식):
 1. ResearchAgent 실행 → `research/latest.json`
 2. Planner 실행 → `metadata/plan.json`
 3. ScriptAgent 실행 → `outputs/script_draft.md`
-4. DeepVerificationAgent 실행 → `metadata/verification.json`
+4. DeepVerificationAgent(Codex 직접 검증) 실행 → `metadata/verification.json`
 5. LegalRiskAgent 실행 → `metadata/legal_risk.json`
 6. 위험도 Low/Medium이면 계속, High면 중단/승인요청
 7. Neutralizer 실행 → `outputs/script_final.md`

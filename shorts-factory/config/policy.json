@@ -2,7 +2,7 @@
   "model_policy": {
     "generation_model": "qwen3-coder-next:q4_K_M",
     "planning_model": "openai-codex/gpt-5.3-codex",
-    "verification_model": "openai-codex/gpt-5.3-codex",
+    "verification_mode": "codex_direct_in_orchestrator",
     "api_minimize": true,
     "daily_api_budget": {
       "max_calls": 80,
