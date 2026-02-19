@@ -356,23 +356,30 @@ def research_agent():
     }
 
 
-def planner(research):
-    topic = research.get("selected_topic", "금융 이슈")
+def facts_for_topic(research, topic, max_facts=4):
+    facts = [n for n in research.get("news_summary", []) if n.get("topic") == topic]
+    if not facts:
+        facts = research.get("news_summary", [])[:max_facts]
+    return facts[:max_facts]
+
+
+def planner(research, topic=None):
+    topic = topic or research.get("selected_topic", "금융 이슈")
     k = research.get("keywords", [])[:4]
     return {
+        "topic": topic,
         "hook": f"지금 시장에서 놓치기 쉬운 {topic}, 핵심만 30초로 보겠습니다.",
         "core": [
             f"키워드 흐름: {', '.join(k) if k else '거시지표'}",
-            "핵심 뉴스 3건에서 공통으로 반복되는 포인트",
+            "핵심 뉴스에서 공통으로 반복되는 포인트",
             "개인에게 미칠 수 있는 실질 영향(지출/환율/금리)"
         ],
         "cta": "지금은 방향성 예측보다 내 리스크 노출 점검이 우선입니다."
     }
 
 
-def script_agent(plan, research):
-    facts = [n.get("fact", "") for n in research.get("news_summary", [])]
-    facts_text = "\n".join([f"- {f}" for f in facts])
+def script_agent(plan, facts):
+    facts_text = "\n".join([f"- {f.get('fact','')}" for f in facts])
     return {
         "draft_script": f"""[Hook]\n{plan['hook']}\n\n[Core]\n{plan['core'][0]}\n{plan['core'][1]}\n{plan['core'][2]}\n\n[News Facts]\n{facts_text}\n\n[CTA]\n{plan['cta']}"""
     }
@@ -397,8 +404,10 @@ def deep_verifier(draft):
             issues.append({"type": "number_context", "phrase": n, "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"})
 
     risk_level = "Low"
-    if any(i["type"] in {"fact_traceability", "number_context"} for i in issues):
+    if any(i["type"] == "fact_traceability" for i in issues):
         risk_level = "High"
+    elif any(i["type"] == "number_context" for i in issues):
+        risk_level = "Medium"
     elif issues:
         risk_level = "Medium"
 
@@ -449,39 +458,60 @@ def main():
     research = research_agent()
     save_json(BASE / "research" / "latest.json", research)
 
-    plan = planner(research)
-    save_json(BASE / "metadata" / "plan.json", plan)
+    topics = research.get("selected_topics", [])[:3]
+    bundle = []
 
-    draft = script_agent(plan, research)
-    (BASE / "outputs" / "script_draft.md").write_text(draft["draft_script"])
+    for idx, topic in enumerate(topics, start=1):
+        plan = planner(research, topic=topic)
+        facts = facts_for_topic(research, topic, max_facts=4)
+        draft = script_agent(plan, facts)
+        verified = deep_verifier(draft)
 
-    verified = deep_verifier(draft)
-    save_json(BASE / "metadata" / "verification.json", verified)
+        if verified["risk_level"] == "High":
+            save_json(BASE / "logs" / f"run-{run_id}.json", {
+                "status": "stopped",
+                "reason": "risk_high",
+                "topic": topic,
+                "time": datetime.now(timezone.utc).isoformat()
+            })
+            return
 
-    if verified["risk_level"] == "High":
-        save_json(BASE / "logs" / f"run-{run_id}.json", {
-            "status": "stopped",
-            "reason": "risk_high",
-            "time": datetime.now(timezone.utc).isoformat()
+        legal = legal_risk_agent(verified["fixed_script"])
+        srt = subtitle_agent(legal["final_script"])
+
+        (BASE / "outputs" / f"script_topic_{idx}.md").write_text(legal["final_script"])
+        (BASE / "subtitles" / f"topic_{idx}.srt").write_text(srt)
+
+        bundle.append({
+            "topic": topic,
+            "plan": plan,
+            "verification": {
+                "risk_level": verified["risk_level"],
+                "issues": verified["issues"]
+            },
+            "script_file": f"outputs/script_topic_{idx}.md",
+            "srt_file": f"subtitles/topic_{idx}.srt"
         })
-        return
 
-    legal = legal_risk_agent(verified["fixed_script"])
-    save_json(BASE / "metadata" / "legal_risk.json", legal)
+    # backward-compatible latest artifacts = topic_1
+    if bundle:
+        first_script = BASE / bundle[0]["script_file"]
+        first_srt = BASE / bundle[0]["srt_file"]
+        (BASE / "outputs" / "script_final.md").write_text(first_script.read_text())
+        (BASE / "subtitles" / "latest.srt").write_text(first_srt.read_text())
 
-    (BASE / "outputs" / "script_final.md").write_text(legal["final_script"])
-    srt = subtitle_agent(legal["final_script"])
-    (BASE / "subtitles" / "latest.srt").write_text(srt)
+    save_json(BASE / "metadata" / "plan.json", {"topics": [b["topic"] for b in bundle]})
+    save_json(BASE / "metadata" / "verification.json", {"topics": [b["verification"] for b in bundle]})
+    save_json(BASE / "metadata" / "legal_risk.json", {"topics": [{"topic": b["topic"], "risk_level": b["verification"]["risk_level"]} for b in bundle]})
+    save_json(BASE / "outputs" / "bundle.json", {"run_id": run_id, "items": bundle})
 
     save_json(BASE / "logs" / f"run-{run_id}.json", {
         "status": "completed",
-        "risk_level": legal["risk_level"],
         "time": datetime.now(timezone.utc).isoformat(),
+        "topic_count": len(bundle),
         "artifacts": [
             "research/latest.json",
-            "metadata/plan.json",
-            "metadata/verification.json",
-            "metadata/legal_risk.json",
+            "outputs/bundle.json",
             "outputs/script_final.md",
             "subtitles/latest.srt"
         ]
