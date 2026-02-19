@@ -3,7 +3,8 @@
   "selected_topics": [
     "금리/연준(Fed) 관련 최신 금융 이슈",
     "환율/달러 관련 최신 금융 이슈",
-    "증시 변동성 관련 최신 금융 이슈"
+    "증시 변동성 관련 최신 금융 이슈",
+    "원자재/에너지 관련 최신 금융 이슈"
   ],
   "keywords": [
     "금리",
@@ -13,27 +14,35 @@
     "fed",
     "fomc",
     "규모",
-    "이란",
-    "결정",
     "하락",
     "출발",
+    "이란",
+    "결정",
     "종목",
     "일제히",
     "급등",
     "ioc",
     "마감",
     "공급계약",
-    "aps"
+    "aps",
+    "다시",
+    "기술주"
   ],
   "news_summary": [
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
-      "fact": "미 Fed 회의록 \"금리 상향 조정\" 언급에...한은 금통위 ‘동결’ 무게 - 중앙일보",
+      "fact": "Fed officials split on where interest rates should go, minutes say",
       "source_type": "news",
-      "source": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1MN0pSWE4tUnBvMGdiRGo2R05uU2ZzZlJJTUJXUmNNS3BLWmlfdU0zdEQ3a3JCVWFHTTJQWkM5MTRHbGp3c1VBZndRcVlHX2dYN256NjZn?oc=5"
+      "source": "https://www.cnbc.com/2026/02/18/fed-minutes-january-2026.html"
     },
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
+      "fact": "연준 FOMC 금리인하 전면재조정 뉴욕증시 비트코인 \"케빈 워시 양적완화\" - 글로벌이코노믹",
+      "source_type": "news",
+      "source": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOZGJ0bmFMRk5SczMyZDMwTlRJX08yZ1JOSGNvUVI0a1c5aGZNdUJ3MDhMS0Q1a1JsQW9hbzlOdTVzakJuM3h3U3BQS3g1aEpRY0ttaTEwbEpxa2lPWUE2NmRzZVhwbmh5aEFhZnl4TmJCb1Fsb1MyUGpzTzhqNXN3bS1rUTdiRTg?oc=5"
+    },
+    {
+      "topic": "원자재/에너지 관련 최신 금융 이슈",
       "fact": "이란 ‘전운’에 美금리 불확실성까지…국제유가·금값도 급등",
       "source_type": "news",
       "source": "https://www.mk.co.kr/news/stock/11966718"
@@ -45,40 +54,40 @@
       "source": "https://news.google.com/rss/articles/CBMidEFVX3lxTE11YUllbXI2ekZTNWU0WXVRNmg0ZEtPMXlUM0d0NTFacmZ5MGpjOUZxbGMxWHdFYW5hS2NRUE1mdnhmM0d2NUR1a0ljMzdNRmZzVWNaV2hneHhkcUwzRC1ockUyX3pTZURkUjBiRjBSWHczQm9j?oc=5"
     },
     {
-      "topic": "환율/달러 관련 최신 금융 이슈",
-      "fact": "美 금리인하 '신중'…달러·원 환율 0.6원 오른 1445.5원 마감(종합) - 뉴스1",
-      "source_type": "news",
-      "source": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9oREdNTzFTM3R6M0dPTmF2QXEwbUtLSVhsZWhfYnRqNzRJVW5IVzJreTY2UXlja2Y2RGdFWW8zaEViWmREZ0lXTlRxX1IxVUlRMHJNeE9FZE5xVGxJUmQ0?oc=5"
-    },
-    {
-      "topic": "환율/달러 관련 최신 금융 이슈",
-      "fact": "\"전고점 갈까\"…운임 하락에 시름하던 HMM '반등' [종목+]",
-      "source_type": "news",
-      "source": "https://www.hankyung.com/article/2026021921306"
-    },
-    {
-      "topic": "환율/달러 관련 최신 금융 이슈",
-      "fact": "'마스가' 액션플랜 공개에 조선株 '뱃고동'…\"실적도 好好\" [종목+]",
-      "source_type": "news",
-      "source": "https://www.hankyung.com/article/2026021915346"
-    },
-    {
-      "topic": "증시 변동성 관련 최신 금융 이슈",
-      "fact": "변동성 버틸 현금흐름에 주목을",
-      "source_type": "news",
-      "source": "https://www.hankyung.com/article/2026021919801"
-    },
-    {
       "topic": "증시 변동성 관련 최신 금융 이슈",
       "fact": "코스피, 설 연휴 뒤 다시 ‘불장’ …한미 증시 ‘디커플링’ 뚜렷 - 한겨레",
       "source_type": "news",
       "source": "https://news.google.com/rss/articles/CBMickFVX3lxTFBuOFhyU0t4OTVYenFMSzQ3UWRXNGRqQUh3V1FkcnJTUXhBa283bW52VUFvT3RRWW1CSndkYmtZcUlBWEdNVThtdU41aWJmVEhJTFZkMWZFUXR6UnhpODJWak5Qb3ZNZnpCNG5nMDFMSDVydw?oc=5"
     },
     {
+      "topic": "환율/달러 관련 최신 금융 이슈",
+      "fact": "美 금리인하 '신중'…달러·원 환율 0.6원 오른 1445.5원 마감(종합) - 뉴스1",
+      "source_type": "news",
+      "source": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9oREdNTzFTM3R6M0dPTmF2QXEwbUtLSVhsZWhfYnRqNzRJVW5IVzJreTY2UXlja2Y2RGdFWW8zaEViWmREZ0lXTlRxX1IxVUlRMHJNeE9FZE5xVGxJUmQ0?oc=5"
+    },
+    {
+      "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
+      "fact": "미 Fed 회의록 \"금리 상향 조정\" 언급에...한은 금통위 ‘동결’ 무게 - 중앙일보",
+      "source_type": "news",
+      "source": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1MN0pSWE4tUnBvMGdiRGo2R05uU2ZzZlJJTUJXUmNNS3BLWmlfdU0zdEQ3a3JCVWFHTTJQWkM5MTRHbGp3c1VBZndRcVlHX2dYN256NjZn?oc=5"
+    },
+    {
       "topic": "증시 변동성 관련 최신 금융 이슈",
       "fact": "코스닥 올해 두 번째 '매수 사이드카'…2차전지·바이오 불뿜었다",
       "source_type": "news",
       "source": "https://www.hankyung.com/article/2026021920231"
+    },
+    {
+      "topic": "증시 변동성 관련 최신 금융 이슈",
+      "fact": "\"코스닥 부실기업 신속 퇴출\"…거래소, 상폐 관리단 가동",
+      "source_type": "news",
+      "source": "https://www.hankyung.com/article/2026021919781"
+    },
+    {
+      "topic": "증시 변동성 관련 최신 금융 이슈",
+      "fact": "뉴욕증시, 애플 등 기술주 약세에 하락 출발 - 조선비즈 - Chosunbiz",
+      "source_type": "news",
+      "source": "https://news.google.com/rss/articles/CBMingFBVV95cUxQN09WQUV4dGZGRE0xTjNzTjVEV2FqV2VjRzQzeG83dDlSUEowOV84aU4ySlFpYVF6RXRGdlptb05BTGtwWXBzaWFUZFZ2MDFNeVg0aURMRU5kVTdtYXczZWg4cGRxMmNGUmczWHFrMkdLOVdadTZ5NjdDZkljSVpzNEkySkZOb05xUFNSczdrcnpXVVI5cGZBTzF3Ym44d9IBsgFBVV95cUxNUXBkSS1ZUl9pSktrcUF6VUdPRnJ1N25ybnJzaV9VZlpNS3BOV1IxbDF0bVRIVW14MnpteVZjTjFyZWFIWmlUMUpSMGlhenNEVHpNY1dfNG1kOXFYbDRjRkdJTzBrV0tGTmpnTVhkbEt3RzMwaGdldjU1c3ZIYnhGWmpSdlE3OWVRR0w2c0VrWG9YcGt6MGhUY3lRenZYYjB3WFZIbWpLaU40U25KdXlORm9R?oc=5"
     }
   ],
   "confidence": "high",
@@ -86,6 +95,8 @@
     "news_count": 44,
     "youtube_signal_count": 18,
     "kr_news_ratio": 0.909,
+    "topic_count": 4,
+    "fact_count": 10,
     "rss_errors": [
       {
         "url": "https://www.fnnews.com/rss/fn_realnews_all.xml",

@@ -177,35 +177,90 @@ def select_topics(keywords, news_items, max_topics=3):
     return topics
 
 
-def summarize_news_facts(news_items, topics, limit_per_topic=3, total_limit=9):
+
+
+def topic_needles_map():
+    return {
+        "금리/연준(Fed) 관련 최신 금융 이슈": ["금리", "연준", "fomc", "fed", "rate", "rates", "interest"],
+        "환율/달러 관련 최신 금융 이슈": ["환율", "달러", "원화", "dollar", "fx", "currency", "yen", "won"],
+        "인플레이션/물가 관련 최신 금융 이슈": ["물가", "인플레", "inflation", "prices", "cpi"],
+        "증시 변동성 관련 최신 금융 이슈": ["증시", "코스피", "코스닥", "주가", "stocks", "equity", "nasdaq", "s&p", "dow"],
+        "채권/국채 관련 최신 금융 이슈": ["국채", "채권", "treasury", "bond", "yields", "yield"],
+        "원자재/에너지 관련 최신 금융 이슈": ["유가", "금값", "원자재", "oil", "gold", "commodity"],
+    }
+
+
+def classify_topic_for_title(title: str, topics):
+    title_l = title.lower()
+    best_topic = topics[0] if topics else "거시경제 변동성 이슈"
+    best_score = -1
+    needles_map = topic_needles_map()
+    for t in topics:
+        needles = needles_map.get(t, [])
+        score = sum(1 for n in needles if n in title_l)
+        if score > best_score:
+            best_score = score
+            best_topic = t
+    return best_topic, best_score
+
+
+def summarize_news_facts(news_items, topics, limit_per_topic=4, total_limit=12):
     out = []
     seen = set()
-    for topic in topics:
-        topic_tokens = set(tokenize(topic))
-        scored = []
-        for n in news_items:
-            t = n["title"]
-            score = len(topic_tokens.intersection(set(tokenize(t))))
-            scored.append((score, n))
-        scored.sort(key=lambda x: x[0], reverse=True)
+    topic_count = {t: 0 for t in topics}
 
-        added = 0
-        for _, n in scored:
+    # 전 기사에 대해 주제 분류 점수 산정
+    scored_all = []
+    for n in news_items:
+        topic_guess, score = classify_topic_for_title(n.get("title", ""), topics)
+        scored_all.append((score, topic_guess, n))
+
+    # 점수 높은 순으로 배치, 토픽별 cap 유지
+    scored_all.sort(key=lambda x: x[0], reverse=True)
+    for score, topic_guess, n in scored_all:
+        if len(out) >= total_limit:
+            break
+        if topic_count.get(topic_guess, 0) >= limit_per_topic:
+            continue
+        key = n.get("link") or n.get("title")
+        if key in seen:
+            continue
+        if any(jaccard_tokens(n.get("title", ""), ex.get("fact", "")) >= 0.62 for ex in out):
+            continue
+
+        # 무관 기사 배제: score 0은 후순위
+        if score <= 0 and len(out) < max(6, len(topics) * 2):
+            continue
+
+        out.append({
+            "topic": topic_guess,
+            "fact": n["title"],
+            "source_type": "news",
+            "source": n.get("link", "")
+        })
+        seen.add(key)
+        topic_count[topic_guess] = topic_count.get(topic_guess, 0) + 1
+
+    # 부족하면 아직 cap 여유가 있는 토픽에만 보충
+    if len(out) < total_limit:
+        for _, topic_guess, n in scored_all:
+            if len(out) >= total_limit:
+                break
+            if topic_count.get(topic_guess, 0) >= limit_per_topic:
+                continue
             key = n.get("link") or n.get("title")
             if key in seen:
                 continue
-            seen.add(key)
+            if any(jaccard_tokens(n.get("title", ""), ex.get("fact", "")) >= 0.62 for ex in out):
+                continue
             out.append({
-                "topic": topic,
+                "topic": topic_guess,
                 "fact": n["title"],
                 "source_type": "news",
                 "source": n.get("link", "")
             })
-            added += 1
-            if added >= limit_per_topic or len(out) >= total_limit:
-                break
-        if len(out) >= total_limit:
-            break
+            seen.add(key)
+            topic_count[topic_guess] = topic_count.get(topic_guess, 0) + 1
 
     return out
 
@@ -216,6 +271,27 @@ def confidence_level(news_count, yt_count, keyword_count):
     if news_count >= 6 and keyword_count >= 6:
         return "medium"
     return "low"
+
+
+def jaccard_tokens(a: str, b: str):
+    sa, sb = set(tokenize(a)), set(tokenize(b))
+    if not sa or not sb:
+        return 0.0
+    return len(sa & sb) / len(sa | sb)
+
+
+def dedupe_news_items(news_items, sim_threshold=0.55):
+    deduped = []
+    for n in news_items:
+        title = n.get("title", "")
+        is_dup = False
+        for d in deduped:
+            if jaccard_tokens(title, d.get("title", "")) >= sim_threshold:
+                is_dup = True
+                break
+        if not is_dup:
+            deduped.append(n)
+    return deduped
 
 
 def has_korean(text: str) -> bool:
@@ -236,12 +312,13 @@ def research_agent():
     kr_news = [n for n in news_items_all if has_korean(n.get("title", ""))]
     non_kr_news = [n for n in news_items_all if not has_korean(n.get("title", ""))]
 
-    # KR 90% 이상 강제: KR 기사 개수 중심으로 총량을 잡는다.
-    base_total = min(max(len(kr_news), 12), 45)
-    non_kr_cap = max(1, int(base_total * 0.1))
+    # KR 90% 이상 강제 + 모수 확대
+    base_total = min(max(len(kr_news), 24), 70)
+    non_kr_cap = max(2, int(base_total * 0.1))
 
     selected_news = kr_news[:base_total]
     selected_news.extend(non_kr_news[:non_kr_cap])
+    selected_news = dedupe_news_items(selected_news, sim_threshold=0.58)
 
     yt_items = []
     yt_errors = []
@@ -252,10 +329,10 @@ def research_agent():
         except Exception as e:
             yt_errors.append({"feed": feed_url, "error": str(e)})
 
-    keywords = extract_keywords(selected_news, yt_items, topk=18)
-    selected_topics = select_topics(keywords, selected_news, max_topics=3)
+    keywords = extract_keywords(selected_news, yt_items, topk=20)
+    selected_topics = select_topics(keywords, selected_news, max_topics=4)
     selected_topic = selected_topics[0]
-    news_summary = summarize_news_facts(selected_news, selected_topics, limit_per_topic=3, total_limit=9)
+    news_summary = summarize_news_facts(selected_news, selected_topics, limit_per_topic=4, total_limit=12)
     confidence = confidence_level(len(selected_news), len(yt_items), len(keywords))
 
     kr_ratio = (len([n for n in selected_news if has_korean(n.get("title", ""))]) / len(selected_news)) if selected_news else 0.0
@@ -270,6 +347,8 @@ def research_agent():
             "news_count": len(selected_news),
             "youtube_signal_count": len(yt_items),
             "kr_news_ratio": round(kr_ratio, 3),
+            "topic_count": len(selected_topics),
+            "fact_count": len(news_summary),
             "rss_errors": rss_errors,
             "youtube_errors": yt_errors,
             "youtube_note": "유튜브는 제목/설명 기반 트렌드 신호로만 사용, 직접 인용 금지"
