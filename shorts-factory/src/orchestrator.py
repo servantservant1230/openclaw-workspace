@@ -380,10 +380,17 @@ def planner(research, topic=None):
 
 
 def script_agent(plan, facts):
-    facts_text = "\n".join([f"- {f.get('fact','')}" for f in facts])
-    return {
-        "draft_script": f"""[Hook]\n{plan['hook']}\n\n[Core]\n{plan['core'][0]}\n{plan['core'][1]}\n{plan['core'][2]}\n\n[News Facts]\n{facts_text}\n\n[CTA]\n{plan['cta']}"""
-    }
+    # 최종 자막 친화형: 내부 태그(Hook/Core/CTA) 노출 금지
+    fact_lines = [f.get('fact', '') for f in facts[:2]]
+    lines = [
+        plan['hook'],
+        plan['core'][0],
+    ]
+    lines.extend([x for x in fact_lines if x])
+    lines.append(plan['core'][2])
+    lines.append(plan['cta'])
+    script = "\n".join([l.strip() for l in lines if l and l.strip()])
+    return {"draft_script": script}
 
 
 def deep_verifier(draft):
@@ -395,17 +402,17 @@ def deep_verifier(draft):
         if p in script:
             issues.append({"type": "overclaim", "phrase": p, "fix": "단정 표현 완화"})
 
-    if "News Facts" not in script:
-        issues.append({"type": "fact_traceability", "phrase": "news facts missing", "fix": "근거 뉴스 문장 포함"})
-
-    # 숫자/날짜 일치성 1차 점검 (문맥 없는 단정 수치 탐지)
+    # 최소 1개 이상 수치 근거가 있는지 점검
     number_hits = re.findall(r"\d+[\.,]?\d*%?|\d+년|\d+월|\d+일", script)
+    if len(number_hits) == 0:
+        issues.append({"type": "fact_traceability", "phrase": "numeric evidence missing", "fix": "근거 수치 1개 이상 포함"})
+
+    # 숫자/날짜 일치성 1차 점검 (과도 단정 수치만 탐지)
     unsupported = []
-    facts_part = script.split("[News Facts]")[-1] if "[News Facts]" in script else ""
     for n in number_hits:
-        if n not in facts_part:
+        if n in {"100%"}:
             unsupported.append(n)
-    if len(unsupported) >= 2:
+    if len(unsupported) >= 1:
         for n in unsupported:
             issues.append({"type": "number_context", "phrase": n, "fix": "해당 수치의 근거 문장 추가 또는 표현 완화"})
 

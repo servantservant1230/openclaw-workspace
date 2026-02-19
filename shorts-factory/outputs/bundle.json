@@ -1,5 +1,5 @@
 {
-  "run_id": "20260220-030435",
+  "run_id": "20260220-031432",
   "items": [
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
@@ -57,6 +57,25 @@
       },
       "script_file": "outputs/script_topic_3.md",
       "srt_file": "subtitles/topic_3.srt"
+    },
+    {
+      "topic": "원자재/에너지 관련 최신 금융 이슈",
+      "plan": {
+        "topic": "원자재/에너지 관련 최신 금융 이슈",
+        "hook": "지금 시장에서 놓치기 쉬운 원자재/에너지 관련 최신 금융 이슈, 핵심만 30초로 보겠습니다.",
+        "core": [
+          "키워드 흐름: 금리, 금리인하, 뉴욕증시, 코스닥",
+          "핵심 뉴스에서 공통으로 반복되는 포인트",
+          "개인에게 미칠 수 있는 실질 영향(지출/환율/금리)"
+        ],
+        "cta": "지금은 방향성 예측보다 내 리스크 노출 점검이 우선입니다."
+      },
+      "verification": {
+        "risk_level": "Low",
+        "issues": []
+      },
+      "script_file": "outputs/script_topic_4.md",
+      "srt_file": "subtitles/topic_4.srt"
     }
   ]
 }

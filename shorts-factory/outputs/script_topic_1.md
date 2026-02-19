@@ -1,18 +1,8 @@
-[Hook]
 지금 시장에서 놓치기 쉬운 금리/연준(Fed) 관련 최신 금융 이슈, 핵심만 30초로 보겠습니다.
-
-[Core]
 키워드 흐름: 금리, 금리인하, 뉴욕증시, 코스닥
-핵심 뉴스에서 공통으로 반복되는 포인트
+Fed officials split on where interest rates should go, minutes say
+연준 FOMC 금리인하 전면재조정 뉴욕증시 비트코인 "케빈 워시 양적완화" - 글로벌이코노믹
 개인에게 미칠 수 있는 실질 영향(지출/환율/금리)
-
-[News Facts]
-- Fed officials split on where interest rates should go, minutes say
-- 연준 FOMC 금리인하 전면재조정 뉴욕증시 비트코인 "케빈 워시 양적완화" - 글로벌이코노믹
-- 미 달러화 강세…FOMC '금리 인상' 시나리오 여파 | - 연합인포맥스
-- 미 Fed 회의록 "금리 상향 조정" 언급에...한은 금통위 ‘동결’ 무게 - 중앙일보
-
-[CTA]
 지금은 방향성 예측보다 내 리스크 노출 점검이 우선입니다.
 
 ※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.
