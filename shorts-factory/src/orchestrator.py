@@ -41,6 +41,7 @@ KOR_STOPWORDS = {
 }
 
 DISCLAIMER = "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다."
+SHORT_ENDCARD = "※ 투자 판단은 본인 책임입니다."
 
 
 def save_json(path: Path, data: dict):
@@ -444,7 +445,9 @@ def legal_risk_agent(script_text: str):
         out = out.replace(b, "신중히 검토하세요")
     return {
         "risk_level": "Low",
-        "final_script": out + "\n\n" + DISCLAIMER
+        "final_script": out,
+        "description_disclaimer": DISCLAIMER,
+        "endcard_disclaimer": SHORT_ENDCARD
     }
 
 
@@ -500,7 +503,7 @@ def main(topic_limit=3):
                 fixed_script = v2["fixed_script"]
 
         legal = legal_risk_agent(fixed_script)
-        srt = subtitle_agent(legal["final_script"])
+        srt = subtitle_agent(legal["final_script"] + "\n" + legal["endcard_disclaimer"])
 
         (BASE / "outputs" / f"script_topic_{idx}.md").write_text(legal["final_script"])
         (BASE / "subtitles" / f"topic_{idx}.srt").write_text(srt)
@@ -511,6 +514,10 @@ def main(topic_limit=3):
             "verification": {
                 "risk_level": verified["risk_level"],
                 "issues": verified["issues"]
+            },
+            "disclaimer": {
+                "description": legal["description_disclaimer"],
+                "endcard": legal["endcard_disclaimer"]
             },
             "script_file": f"outputs/script_topic_{idx}.md",
             "srt_file": f"subtitles/topic_{idx}.srt"
@@ -525,7 +532,22 @@ def main(topic_limit=3):
 
     save_json(BASE / "metadata" / "plan.json", {"topics": [b["topic"] for b in bundle]})
     save_json(BASE / "metadata" / "verification.json", {"topics": [b["verification"] for b in bundle]})
-    save_json(BASE / "metadata" / "legal_risk.json", {"topics": [{"topic": b["topic"], "risk_level": b["verification"]["risk_level"]} for b in bundle]})
+    save_json(BASE / "metadata" / "legal_risk.json", {
+        "policy": {
+            "subtitle_disclaimer": "use_endcard_short_only",
+            "description_disclaimer": DISCLAIMER,
+            "endcard_disclaimer": SHORT_ENDCARD
+        },
+        "topics": [
+            {
+                "topic": b["topic"],
+                "risk_level": b["verification"]["risk_level"],
+                "description_disclaimer": b["disclaimer"]["description"],
+                "endcard_disclaimer": b["disclaimer"]["endcard"]
+            }
+            for b in bundle
+        ]
+    })
     save_json(BASE / "outputs" / "bundle.json", {"run_id": run_id, "items": bundle})
 
     save_json(BASE / "logs" / f"run-{run_id}.json", {

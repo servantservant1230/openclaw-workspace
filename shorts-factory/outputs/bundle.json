@@ -1,5 +1,5 @@
 {
-  "run_id": "20260220-031432",
+  "run_id": "20260220-031939",
   "items": [
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
@@ -16,6 +16,10 @@
       "verification": {
         "risk_level": "Low",
         "issues": []
+      },
+      "disclaimer": {
+        "description": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+        "endcard": "※ 투자 판단은 본인 책임입니다."
       },
       "script_file": "outputs/script_topic_1.md",
       "srt_file": "subtitles/topic_1.srt"
@@ -36,6 +40,10 @@
         "risk_level": "Low",
         "issues": []
       },
+      "disclaimer": {
+        "description": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+        "endcard": "※ 투자 판단은 본인 책임입니다."
+      },
       "script_file": "outputs/script_topic_2.md",
       "srt_file": "subtitles/topic_2.srt"
     },
@@ -55,6 +63,10 @@
         "risk_level": "Low",
         "issues": []
       },
+      "disclaimer": {
+        "description": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+        "endcard": "※ 투자 판단은 본인 책임입니다."
+      },
       "script_file": "outputs/script_topic_3.md",
       "srt_file": "subtitles/topic_3.srt"
     },
@@ -73,6 +85,10 @@
       "verification": {
         "risk_level": "Low",
         "issues": []
+      },
+      "disclaimer": {
+        "description": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+        "endcard": "※ 투자 판단은 본인 책임입니다."
       },
       "script_file": "outputs/script_topic_4.md",
       "srt_file": "subtitles/topic_4.srt"

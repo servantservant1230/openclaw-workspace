@@ -1,20 +1,33 @@
 {
+  "policy": {
+    "subtitle_disclaimer": "use_endcard_short_only",
+    "description_disclaimer": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+    "endcard_disclaimer": "※ 투자 판단은 본인 책임입니다."
+  },
   "topics": [
     {
       "topic": "금리/연준(Fed) 관련 최신 금융 이슈",
-      "risk_level": "Low"
+      "risk_level": "Low",
+      "description_disclaimer": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+      "endcard_disclaimer": "※ 투자 판단은 본인 책임입니다."
     },
     {
       "topic": "환율/달러 관련 최신 금융 이슈",
-      "risk_level": "Low"
+      "risk_level": "Low",
+      "description_disclaimer": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+      "endcard_disclaimer": "※ 투자 판단은 본인 책임입니다."
     },
     {
       "topic": "증시 변동성 관련 최신 금융 이슈",
-      "risk_level": "Low"
+      "risk_level": "Low",
+      "description_disclaimer": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+      "endcard_disclaimer": "※ 투자 판단은 본인 책임입니다."
     },
     {
       "topic": "원자재/에너지 관련 최신 금융 이슈",
-      "risk_level": "Low"
+      "risk_level": "Low",
+      "description_disclaimer": "※ 본 내용은 일반적인 정보이며 개인 상황에 따라 다를 수 있습니다.",
+      "endcard_disclaimer": "※ 투자 판단은 본인 책임입니다."
     }
   ]
 }
