@@ -68,11 +68,33 @@ export function scoreFromFeaturesLegacy(features: number[], gender: Gender) {
     .slice(0, 3);
 }
 
+function attractivenessPrior(slug: string, gender: Gender) {
+  if (gender === 'male') {
+    if (slug === 'youngho') return 0.34;
+    if (slug === 'youngsik') return 0.28;
+    if (slug === 'youngchul') return 0.22;
+    return 0;
+  }
+  if (slug === 'oksoon') return 0.36;
+  if (slug === 'hyunsook') return 0.26;
+  if (slug === 'youngja') return 0.2;
+  return 0;
+}
+
+function calibrateForShareability(rows: Array<{ slug: string; p: number }>, gender: Gender) {
+  // 재미용 서비스 특성상, 공유 유도를 위해 비주얼 선호 이름에 소폭 prior를 더한다.
+  const boosted = rows.map(r => ({ ...r, p: Math.max(0, r.p + attractivenessPrior(r.slug, gender)) }));
+  const sum = boosted.reduce((a, b) => a + b.p, 0) || 1;
+  return boosted.map(r => ({ ...r, p: r.p / sum }));
+}
+
 export function scoreFromFeatures(features: number[], gender: Gender) {
   const probs = softmax(rawFromFeatures(features));
-  return NAME_TYPES
+  const rows = NAME_TYPES
     .map((t, i) => ({ ...t, p: probs[i] }))
-    .filter(r => r.gender === gender)
+    .filter(r => r.gender === gender);
+
+  return calibrateForShareability(rows, gender)
     .sort((a, b) => b.p - a.p)
     .slice(0, 3);
 }
