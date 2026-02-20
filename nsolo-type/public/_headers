@@ -1,0 +1,11 @@
+/scan.html
+  Content-Security-Policy: default-src 'self'; script-src 'self'; connect-src 'none'; img-src 'self' blob: data:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; frame-src 'none'
+  Permissions-Policy: camera=(self), microphone=(), geolocation=()
+  Referrer-Policy: no-referrer
+  X-Content-Type-Options: nosniff
+
+/result.html
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://*.googleadservices.com; connect-src 'self' https://*.googlesyndication.com; img-src 'self' data: https://*.googlesyndication.com https://*.googleusercontent.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'
+
+/name/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://*.googleadservices.com; connect-src 'self' https://*.googlesyndication.com; img-src 'self' data: https://*.googlesyndication.com https://*.googleusercontent.com; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; style-src 'self' 'unsafe-inline'
