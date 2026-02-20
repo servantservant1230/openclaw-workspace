@@ -1,4 +1,4 @@
-import { NAME_TYPES } from './types';
+import { Gender, NAME_TYPES } from './types';
 
 export function softmax(arr: number[]): number[] {
   const m = Math.max(...arr);
@@ -18,10 +18,12 @@ const WEIGHTS: number[][] = NAME_TYPES.map((_, i) => [
   Math.cos(i + 8) * 0.1
 ]);
 
-export function scoreFromFeatures(features: number[]) {
+export function scoreFromFeatures(features: number[], gender: Gender) {
   const raw = WEIGHTS.map(w => w.reduce((acc, v, idx) => acc + v * (features[idx] ?? 0), 0));
   const probs = softmax(raw);
-  const rows = NAME_TYPES.map((t, i) => ({ ...t, p: probs[i] }))
+  const rows = NAME_TYPES
+    .map((t, i) => ({ ...t, p: probs[i] }))
+    .filter(r => r.gender === gender)
     .sort((a, b) => b.p - a.p)
     .slice(0, 3);
   return rows;

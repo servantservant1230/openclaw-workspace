@@ -42,7 +42,8 @@ if (!data) {
     .map(
       (r, i) => `
     <div class="card">
-      <h3>${i + 1}. ${r.label} (${r.p}%)</h3>
+      <small class="muted">${i + 1}순위</small>
+      <div class="result-top">${r.label} <span class="muted" style="font-size:22px">${r.p}%</span></div>
       <p>${r.desc}</p>
       <div class="bar"><i style="width:${r.p}%"></i></div>
       <p><a href="/name/${r.slug}.html">${r.label} 타입 설명 보기</a></p>

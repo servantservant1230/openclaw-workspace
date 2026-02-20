@@ -2,6 +2,11 @@ import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    port: 4173,
+    allowedHosts: ['faecaed1832436.lhr.life', '.lhr.life']
+  },
   build: {
     rollupOptions: {
       input: {

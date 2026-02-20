@@ -1,9 +1,26 @@
 <!doctype html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>scan</title><script type='module' src='/src/scan.ts'></script></head><body>
-<h1>촬영/분석</h1>
-<p class='muted'>이미지는 기기 내에서 저해상 처리 후 즉시 폐기됩니다.</p>
-<video id='video' autoplay playsinline muted style='display:none'></video>
-<canvas id='preview' width='320' height='240'></canvas>
-<p id='status'>카메라 준비중...</p>
-<button id='analyze'>분석하기</button>
-<p><a href='/'>돌아가기</a></p>
+<div class='container'>
+  <section class='hero'>
+    <span class='badge'>Step 1</span>
+    <h1>사진 업로드 분석</h1>
+    <p>재미용 분류입니다. 업로드 이미지는 서버로 전송되지 않습니다.</p>
+  </section>
+
+  <section class='card stack'>
+    <label>성별 선택(추천 타입 필터)</label>
+    <select id='gender'>
+      <option value='male'>남성</option>
+      <option value='female'>여성</option>
+    </select>
+  </section>
+
+  <section class='card stack'>
+    <input id='upload' type='file' accept='image/*' />
+    <canvas id='preview' width='320' height='320'></canvas>
+    <p id='status' class='muted'>사진을 업로드해 주세요.</p>
+    <button id='analyze'>분석하기</button>
+  </section>
+
+  <a class='btn ghost' href='/'>돌아가기</a>
+</div>
 </body></html>

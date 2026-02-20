@@ -9,8 +9,8 @@ describe('softmax', () => {
 });
 
 describe('score', () => {
-  it('returns top3', () => {
-    const res = scoreFromFeatures([0.2, 0.1, 0.3, 0.4, 0.1, 0.2, 0.1, 0.3]);
+  it('returns top3 by gender', () => {
+    const res = scoreFromFeatures([0.2, 0.1, 0.3, 0.4, 0.1, 0.2, 0.1, 0.3], 'male');
     expect(res.length).toBe(3);
     expect(res[0].p).toBeGreaterThanOrEqual(res[1].p);
   });
