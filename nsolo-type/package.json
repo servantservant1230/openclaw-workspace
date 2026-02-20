@@ -8,10 +8,14 @@
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "bench:dataset": "node scripts/build-benchmark-dataset.mjs",
+    "bench": "tsx scripts/benchmark.ts"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",
+    "jimp": "^1.6.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vitest": "^3.2.4"

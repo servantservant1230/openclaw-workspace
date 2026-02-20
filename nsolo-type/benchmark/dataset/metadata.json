@@ -1,0 +1,329 @@
+{
+  "createdAt": "2026-02-20T11:59:26.390Z",
+  "samples": [
+    {
+      "file": "benchmark/dataset/youngsoo_01.jpg",
+      "slug": "youngsoo",
+      "label": "영수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/J5iYiKYJCIU/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=J5iYiKYJCIU",
+      "title": "[30기 4화 영수 모음] '좋아하는 사람 vs 좋아해주는 사람' 0표 트라우마 영수😲🔥ㅣ나는솔로 SOLO EP.242 예고ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngsoo_02.jpg",
+      "slug": "youngsoo",
+      "label": "영수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/O0IlDP0s30g/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=O0IlDP0s30g",
+      "title": "\"지인 추가!\" 미스터 킴과 용담에게 긁혀버린 28기 영수💢...?!ㅣEP.153ㅣSBSPlusㅣ#나솔사계 ㅣ매주 목요일 밤 10시 30분 방송"
+    },
+    {
+      "file": "benchmark/dataset/youngsoo_03.jpg",
+      "slug": "youngsoo",
+      "label": "영수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/xnhHfE0xuic/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=xnhHfE0xuic",
+      "title": "나는솔로 30기 영식 파혼사유 폭로. 영수 소개팅 어플 만남 실체 폭로"
+    },
+    {
+      "file": "benchmark/dataset/youngho_01.jpg",
+      "slug": "youngho",
+      "label": "영호",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/MYBraQHPPRA/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=MYBraQHPPRA",
+      "title": "영호의 청국장 테스트🥘 무리수 개그까지??😅영숙의 반응은?ㅣ나는솔로 SOLO EP.240ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngho_02.jpg",
+      "slug": "youngho",
+      "label": "영호",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/m0L3QnFcvzM/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=m0L3QnFcvzM",
+      "title": "[나는 SOLO] 30기_ 에겐남과 태토녀들의 자기소개가 공개된다! // 30-12"
+    },
+    {
+      "file": "benchmark/dataset/youngho_03.jpg",
+      "slug": "youngho",
+      "label": "영호",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/EBsharqqXg8/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=EBsharqqXg8",
+      "title": "[솔로이야기] 어쩌면 가장 솔직했던 영호의 '4일간'의 짝사랑이야기"
+    },
+    {
+      "file": "benchmark/dataset/youngsik_01.jpg",
+      "slug": "youngsik",
+      "label": "영식",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/ZGKvI2EoBwg/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=ZGKvI2EoBwg",
+      "title": "\"전 애인과 결혼하려 했어요\" 개인사 오픈한 영식💧 영자의 반응은??ㅣ나는솔로 SOLO EP.241ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngsik_02.jpg",
+      "slug": "youngsik",
+      "label": "영식",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/ff_89hNrP7c/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=ff_89hNrP7c",
+      "title": "\"눈을 부라릴 정도로 불편해요?\" 일방적인 영식의 표현에 지친 현숙😰과 혼내는 영숙😡ㅣ나는솔로 SOLO EP.236 ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngsik_03.jpg",
+      "slug": "youngsik",
+      "label": "영식",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/RI3yrdNCSpU/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=RI3yrdNCSpU",
+      "title": "[24기 하이라이트] 첫 사랑에 아파하는 남자💘 24기 영식 모음집 #나는솔로 #나는솔로24기"
+    },
+    {
+      "file": "benchmark/dataset/youngchul_01.jpg",
+      "slug": "youngchul",
+      "label": "영철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/Vlyc1ZQk04U/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=Vlyc1ZQk04U",
+      "title": "거절이 힘든 샤이보이 에겐남🥹 대답해 주지 않는 영철 때문에 답답함 폭발한 옥순🔥 #나는솔로 EP.241"
+    },
+    {
+      "file": "benchmark/dataset/youngchul_02.jpg",
+      "slug": "youngchul",
+      "label": "영철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/z6HIKg7WmUc/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=z6HIKg7WmUc",
+      "title": "[나는 SOLO]※미방분※ 30기_샤이보이 영철을 간택한 두 여자"
+    },
+    {
+      "file": "benchmark/dataset/youngchul_03.jpg",
+      "slug": "youngchul",
+      "label": "영철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/v0oBSXH8AwM/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=v0oBSXH8AwM",
+      "title": "[나는 SOLO] 30기_ 여자들과의 데이트가 쑥스러운 영철  // 30-24"
+    },
+    {
+      "file": "benchmark/dataset/kwangsoo_01.jpg",
+      "slug": "kwangsoo",
+      "label": "광수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/Ti5159vLueY/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=Ti5159vLueY",
+      "title": "[나는 SOLO] 30기_ 영호가 없는 사이👀 공대남 광수와의 대화  // 30-25"
+    },
+    {
+      "file": "benchmark/dataset/kwangsoo_02.jpg",
+      "slug": "kwangsoo",
+      "label": "광수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/6AahfnkaIys/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=6AahfnkaIys",
+      "title": "\"영수 아무것도 없다니까\" 광수의 영수 뒷담화🔥ㅣ나는솔로 SOLO EP.233 ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/kwangsoo_03.jpg",
+      "slug": "kwangsoo",
+      "label": "광수",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/AJZ_kg1U6QQ/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=AJZ_kg1U6QQ",
+      "title": "[하이라이트] 모쏠계에선 연애잘알인 내가 이세계에선 연애알못..? I 나는 솔로 SOLO I ENA 채널 I 매주 수요일 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/sangchul_01.jpg",
+      "slug": "sangchul",
+      "label": "상철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/ACrPgrXO2io/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=ACrPgrXO2io",
+      "title": "\"육아만 하고 싶어요\"평가받는 상철😮‍💨 경제력 중요한 현숙😎ㅣ나는솔로 SOLO EP.240ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/sangchul_02.jpg",
+      "slug": "sangchul",
+      "label": "상철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/lBjRxNKL_Xk/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=lBjRxNKL_Xk",
+      "title": "[나는 SOLO]※미방분※ 30기_만취한 상철의 🍜해장을 도와준 정 많은 버스 기사님🚌"
+    },
+    {
+      "file": "benchmark/dataset/sangchul_03.jpg",
+      "slug": "sangchul",
+      "label": "상철",
+      "gender": "male",
+      "source": "https://i.ytimg.com/vi/wVyVAJvHDis/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=wVyVAJvHDis",
+      "title": "[#나는솔로] 하이라이트 | 예측 불가능한 출력값?! 16기 상철과 16기 영숙의 중.꺾.플 모음집! | ENA 채널 | 매주 수요일 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/oksoon_01.jpg",
+      "slug": "oksoon",
+      "label": "옥순",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/Vlyc1ZQk04U/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=Vlyc1ZQk04U",
+      "title": "거절이 힘든 샤이보이 에겐남🥹 대답해 주지 않는 영철 때문에 답답함 폭발한 옥순🔥 #나는솔로 EP.241"
+    },
+    {
+      "file": "benchmark/dataset/oksoon_02.jpg",
+      "slug": "oksoon",
+      "label": "옥순",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/crxHQ_gxHnM/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=crxHQ_gxHnM",
+      "title": "\"할 땐 하는데요?!!\" 발끈한 너드남 '영철'😡 놀리는데 진심인 옥순&순자😂ㅣ나는솔로 SOLO EP.241ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/oksoon_03.jpg",
+      "slug": "oksoon",
+      "label": "옥순",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/RI3yrdNCSpU/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=RI3yrdNCSpU",
+      "title": "[24기 하이라이트] 첫 사랑에 아파하는 남자💘 24기 영식 모음집 #나는솔로 #나는솔로24기"
+    },
+    {
+      "file": "benchmark/dataset/youngsook_01.jpg",
+      "slug": "youngsook",
+      "label": "영숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/SPouazTjwdA/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=SPouazTjwdA",
+      "title": "\"피로회복제 드세요💊💕\" 영숙 약사님👩‍⚕️의 연하남 꼬시기 작전ㅣ나는솔로 SOLO EP.241ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngsook_02.jpg",
+      "slug": "youngsook",
+      "label": "영숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/k7gbYxYizHI/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=k7gbYxYizHI",
+      "title": "가만히 있다 아웃당한 영수? 마음속 순위를 정리한 영숙의 본격적인 플러팅 시작💊 #나는솔로 EP.241"
+    },
+    {
+      "file": "benchmark/dataset/youngsook_03.jpg",
+      "slug": "youngsook",
+      "label": "영숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/cDHehIzlT9A/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=cDHehIzlT9A",
+      "title": "속 시원한 영숙의 참교육! 영식에게 꼭 필요했던 인생 선배의 쓴소리♨️ #나는솔로 EP.236"
+    },
+    {
+      "file": "benchmark/dataset/soonja_01.jpg",
+      "slug": "soonja",
+      "label": "순자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/sdOQuPDBy_Q/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=sdOQuPDBy_Q",
+      "title": "\"한번 튕겼어요ㅎ\" 셀프 속마음 오픈😂 영철보다 영수인 순자💖ㅣ나는솔로 SOLO EP.241ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/soonja_02.jpg",
+      "slug": "soonja",
+      "label": "순자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/w8Cp8n--tyU/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=w8Cp8n--tyU",
+      "title": "[나는솔로 30기] 0표 이후 의기소침해있는 에겐남 영수를 가만두지않는 순자와 옥순"
+    },
+    {
+      "file": "benchmark/dataset/soonja_03.jpg",
+      "slug": "soonja",
+      "label": "순자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/IyGDUl3PgSs/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=IyGDUl3PgSs",
+      "title": "'나솔 최초 여경👮🏻 등장??' 30기 영숙 정숙 순자의 테토녀 자기소개💜 ㅣ나는솔로 SOLO EP.239ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/youngja_01.jpg",
+      "slug": "youngja",
+      "label": "영자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/3fUh2UqdSLA/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=3fUh2UqdSLA",
+      "title": "어장 따위 관리하지 않는 인기녀 영자✨ 시원 털털한 영자의 깔끔한 순위 공개 #나는솔로 EP.241"
+    },
+    {
+      "file": "benchmark/dataset/youngja_02.jpg",
+      "slug": "youngja",
+      "label": "영자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/bJL6ujOVxcA/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=bJL6ujOVxcA",
+      "title": "[나는 SOLO] 30기_ 웃음이 끊이지 않는 영자💛영식의 첫 데이트... 개인사까지 공유?  // 30-23"
+    },
+    {
+      "file": "benchmark/dataset/youngja_03.jpg",
+      "slug": "youngja",
+      "label": "영자",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/GawTDfWQwGo/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=GawTDfWQwGo",
+      "title": "'그럴 거면 들어가서 자요🤬' 영자에게 대화 신청❌ 망부석 영수🪨💬ㅣ나는솔로 SOLO EP.241ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/jungsook_01.jpg",
+      "slug": "jungsook",
+      "label": "정숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/lZRIM5B8Ts8/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=lZRIM5B8Ts8",
+      "title": "나는솔로 30기 출연자 정보, 지인 폭로글. 정숙 일찐설, 영식 파혼, 영수 틴더남 폭로"
+    },
+    {
+      "file": "benchmark/dataset/jungsook_02.jpg",
+      "slug": "jungsook",
+      "label": "정숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/1DJL1TTmWhM/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=1DJL1TTmWhM",
+      "title": "\"아..치마 불편해\" 테토녀 여경🔥 30기 영숙 정숙 순자 등장합니다💜ㅣ나는솔로 SOLO EP.238ㅣSBS PLUSㅣ(수) 밤 10시 30분"
+    },
+    {
+      "file": "benchmark/dataset/jungsook_03.jpg",
+      "slug": "jungsook",
+      "label": "정숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/ryrqM4Kgnuw/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=ryrqM4Kgnuw",
+      "title": "[#솔로리액션] ✨연하남을 홀린 그녀들😻 #29기옥순 #29기정숙 #29기영자 #29기영숙  ✨ 29기 연상연하특집 솔로리액션🔥ㅣ #나는솔로 29기ㅣSBS Plus"
+    },
+    {
+      "file": "benchmark/dataset/hyunsook_01.jpg",
+      "slug": "hyunsook",
+      "label": "현숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/JN2xcNNpdLo/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=JN2xcNNpdLo",
+      "title": "살벌한 현숙과 정숙의 기싸움🔥 영수를 두고 커져버린 그녀들의 말다툼ㄷㄷ #나는솔로 EP.225"
+    },
+    {
+      "file": "benchmark/dataset/hyunsook_02.jpg",
+      "slug": "hyunsook",
+      "label": "현숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/lfer8qk6P68/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=lfer8qk6P68",
+      "title": "외벌이 현숙 vs 맞벌이 상철🔥 전혀 다른 육아 가치관에 멀어지는 두 사람?! #나는솔로 EP.240"
+    },
+    {
+      "file": "benchmark/dataset/hyunsook_03.jpg",
+      "slug": "hyunsook",
+      "label": "현숙",
+      "gender": "female",
+      "source": "https://i.ytimg.com/vi/zHwini5TeIo/hqdefault.jpg",
+      "ref": "https://www.youtube.com/watch?v=zHwini5TeIo",
+      "title": "“나 바람둥이 맞아” 영수한테 사기 당한 현숙🔥 결국 정숙을 최종 선택하겠다고?! #나는솔로 EP.227"
+    }
+  ]
+}
