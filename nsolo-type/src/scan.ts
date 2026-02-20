@@ -72,6 +72,10 @@ btn.onclick = () => {
     status.textContent = '먼저 사진을 업로드해 주세요.';
     return;
   }
+
+  btn.disabled = true;
+  status.textContent = '분석 중...';
+
   const g = gender.value as Gender;
   const w = 224, h = 224;
   const off = document.createElement('canvas');
@@ -81,7 +85,10 @@ btn.onclick = () => {
   const data = off.getContext('2d')!.getImageData(0, 0, w, h);
   const features = extractFeatures(data);
   const top3 = scoreFromFeatures(features, g).map(r => ({ ...r, p: Math.round(r.p * 1000) / 10 }));
+
   sessionStorage.setItem('nsolo_result', JSON.stringify(top3));
   sessionStorage.setItem('nsolo_gender', g);
+
+  btn.disabled = false;
   window.location.href = '/result.html';
 };
