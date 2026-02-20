@@ -68,17 +68,10 @@ export function scoreFromFeaturesLegacy(features: number[], gender: Gender) {
     .slice(0, 3);
 }
 
-function attractivenessPrior(slug: string, gender: Gender) {
-  if (gender === 'male') {
-    if (slug === 'youngho') return 0.34;
-    if (slug === 'youngsik') return 0.28;
-    if (slug === 'youngchul') return 0.22;
-    return 0;
-  }
-  if (slug === 'oksoon') return 0.36;
-  if (slug === 'hyunsook') return 0.26;
-  if (slug === 'youngja') return 0.2;
-  return 0;
+function attractivenessPrior(slug: string, _gender: Gender) {
+  // 요청사항: 6개 이름 모두 동일 강도로 아주 약하게 가중
+  const boosted = new Set(['oksoon', 'hyunsook', 'youngja', 'youngho', 'youngsik', 'youngchul']);
+  return boosted.has(slug) ? 0.01 : 0;
 }
 
 function calibrateForShareability(rows: Array<{ slug: string; p: number }>, gender: Gender) {
