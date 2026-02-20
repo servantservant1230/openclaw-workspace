@@ -53,7 +53,8 @@ async function run() {
   const l1M = summarize(rows.map(r => ({ top1: r.top1L1, top3: r.top3L1 })));
   const l2M = summarize(rows.map(r => ({ top1: r.top1L2, top3: r.top3L2 })));
 
-  const md = `# 나는솔로 이름타입 벤치마크\n\n- 샘플 수: ${baseM.n}장 (타입별 3장)\n- 출처: YouTube 공개 썸네일(hqdefault.jpg), 쿼리=\"나는솔로 {이름타입}\"\n- 파일: benchmark/dataset/metadata.json\n\n## 정확도 비교\n\n| 버전 | Top1 | Top3 |\n|---|---:|---:|\n| Baseline(기존 score) | ${(baseM.top1 * 100).toFixed(1)}% | ${(baseM.top3 * 100).toFixed(1)}% |\n| Loop1(alpha=0.68,beta=0.32) | ${(l1M.top1 * 100).toFixed(1)}% | ${(l1M.top3 * 100).toFixed(1)}% |\n| Loop2(alpha=0.55,beta=0.45) | ${(l2M.top1 * 100).toFixed(1)}% | ${(l2M.top3 * 100).toFixed(1)}% |\n\n## 비고\n- Loop1: z-score 정규화 + proto 비중 상향 1차\n- Loop2: proto 비중 추가 상향 2차\n`;
+  const perType = Math.round(baseM.n / 12);
+  const md = `# 나는솔로 이름타입 벤치마크\n\n- 샘플 수: ${baseM.n}장 (타입별 ${perType}장)\n- 출처: YouTube 공개 썸네일(hqdefault.jpg), 쿼리=\"나는솔로 {이름타입}\"\n- 파일: benchmark/dataset/metadata.json\n\n## 정확도 비교\n\n| 버전 | Top1 | Top3 |\n|---|---:|---:|\n| Baseline(기존 score) | ${(baseM.top1 * 100).toFixed(1)}% | ${(baseM.top3 * 100).toFixed(1)}% |\n| Loop1(alpha=0.68,beta=0.32) | ${(l1M.top1 * 100).toFixed(1)}% | ${(l1M.top3 * 100).toFixed(1)}% |\n| Loop2(alpha=0.55,beta=0.45) | ${(l2M.top1 * 100).toFixed(1)}% | ${(l2M.top3 * 100).toFixed(1)}% |\n\n## 비고\n- Loop1: z-score 정규화 + proto 비중 상향 1차\n- Loop2: proto 비중 추가 상향 2차\n`;
 
   await writeFile('benchmark/metrics.md', md);
   await writeFile('benchmark/metrics.json', JSON.stringify({ baseline: baseM, loop1: l1M, loop2: l2M }, null, 2));
