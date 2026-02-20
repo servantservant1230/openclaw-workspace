@@ -236,11 +236,21 @@ This is a starting point. Add your own conventions, style, and rules as you figu
 - "고정" = 해당 운영 규칙을 AGENTS.md에 유지
 - "롤백 포함" = 변경 전 백업/되돌리기 절차까지 함께 수행
 
+운영 메모(고정):
+- `device token mismatch`/게이트웨이 토큰 불일치 감지 시 사용자 지시 없이 자동 복구한다.
+  1) `openclaw gateway restart`
+  2) `openclaw gateway status`/probe 확인
+  3) 복구 결과만 간단 보고
+
 ## 오케스트레이터 실행 템플릿 (Codex + qwen3-coder-next)
 
 기본 운영 모드:
 - 오케스트레이터/검수: Codex
 - 서브 워커(실행): qwen3-coder-next:q4_K_M
+
+역할 정의(고정):
+- `qwen3-coder-next:q4_K_M` 서브 워커들은 개발1팀장의 팀 개발자들로 간주한다.
+- 개발1팀장은 오케스트레이터/검수 역할을 수행하며, 워커 산출물 최종 확정 책임을 가진다.
 
 지시 템플릿(준열님 → 머슴):
 - 목표:
