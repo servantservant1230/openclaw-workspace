@@ -54,8 +54,16 @@ if (!data) {
   const top = rows[0];
   const shareText = `내 나는솔로 타입은 ${top.label} (${top.p}%)!`;
   (document.querySelector('#share') as HTMLButtonElement).onclick = async () => {
-    if (navigator.share) await navigator.share({ text: shareText, url: location.href });
-    else await navigator.clipboard.writeText(shareText);
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: '나는솔로 타입 결과', text: shareText, url: location.href });
+      } else {
+        await navigator.clipboard.writeText(`${shareText} ${location.href}`);
+        alert('공유 문구가 클립보드에 복사됐어요.');
+      }
+    } catch {
+      // 사용자가 공유 창을 닫은 경우 등
+    }
   };
 
   (document.querySelector('#save-card') as HTMLButtonElement).onclick = () => {
@@ -63,6 +71,8 @@ if (!data) {
     const a = document.createElement('a');
     a.href = url;
     a.download = 'nsolo-result.png';
+    document.body.appendChild(a);
     a.click();
+    a.remove();
   };
 }
