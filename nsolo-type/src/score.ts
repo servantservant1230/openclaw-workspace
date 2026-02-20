@@ -53,7 +53,7 @@ function zNorm(f: number[]) {
   return f.map(v => (v - mean) / sd);
 }
 
-function rawFromFeatures(features: number[], alpha = 0.68, beta = 0.32) {
+function rawFromFeatures(features: number[], alpha = 0.75, beta = 0.25) {
   const zn = zNorm(features);
   return WEIGHTS.map((w, i) => alpha * dot(w, zn) + beta * dot(PROTO[i], zn));
 }
