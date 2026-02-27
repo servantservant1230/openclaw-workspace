@@ -1,0 +1,6 @@
+date,us_cpi_yoy_change,us_unemployment_change,fed_rate_change,us10y_change,dxy_change,brent_change,usdkrw_change,kr_cpi_change,bok_rate_change,ai_capex_momentum,memory_cycle,consumption_momentum,ad_market_momentum,export_momentum,real_income_momentum,real_nasdaq_dir,real_qqq_dir,real_kospi_dir,real_samsung_electronics_dir,real_sk_hynix_dir,real_naver_dir
+2025-10-31,0.1,0.0,0.1,0.2,0.1,0.1,0.1,0.1,0.1,0.3,0.2,0.1,0.0,0.0,0.0,DOWN,DOWN,DOWN,DOWN,DOWN,DOWN
+2025-11-30,-0.1,0.1,-0.1,-0.1,-0.1,-0.1,-0.1,0.0,-0.1,0.4,0.5,0.2,0.1,0.3,0.1,UP,UP,UP,UP,UP,UP
+2025-12-31,0.0,0.0,0.0,0.0,0.1,0.0,0.0,0.0,0.0,0.2,0.1,0.1,0.1,0.2,0.0,FLAT,FLAT,FLAT,FLAT,FLAT,FLAT
+2026-01-31,0.1,0.1,0.0,0.1,0.1,0.0,0.1,0.1,0.0,0.5,0.6,0.3,0.2,0.4,0.1,UP,UP,UP,UP,UP,FLAT
+2026-02-28,-0.1,-0.1,0.0,-0.1,-0.1,-0.1,-0.1,0.0,0.0,0.4,0.5,0.2,0.2,0.3,0.1,UP,UP,UP,UP,UP,UP
