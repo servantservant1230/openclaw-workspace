@@ -7,7 +7,13 @@
 chmod +x macro-forecast/scripts/run_and_send.sh
 ```
 
-## 2) 크론 등록 예시 (Asia/Seoul 기준)
+## 2) 크론 등록
+자동 등록 스크립트 사용:
+```bash
+./macro-forecast/scripts/install_cron.sh
+```
+
+수동 등록이 필요하면 아래 예시를 사용:
 ```cron
 # Daily: 매일 08:30
 30 8 * * * cd /Volumes/WORK_SSD/workspace && TELEGRAM_BOT_TOKEN="${TELEGRAM_BOT_TOKEN}" ./macro-forecast/scripts/run_and_send.sh daily >> /tmp/macro-forecast-daily.log 2>&1
@@ -21,7 +27,6 @@ chmod +x macro-forecast/scripts/run_and_send.sh
 
 ## 3) 등록/확인
 ```bash
-crontab -e
 crontab -l
 ```
 

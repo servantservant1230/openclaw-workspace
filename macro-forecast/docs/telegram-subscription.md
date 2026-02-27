@@ -17,11 +17,12 @@
 
 ## 예시
 ```bash
-# 1) webhook 서버 실행
-PYTHONPATH=src TELEGRAM_BOT_TOKEN="..." python3 scripts/serve_telegram_webhook.py
+# 1) 런타임 설정(웹훅 등록)
+TELEGRAM_BOT_TOKEN="..." TELEGRAM_WEBHOOK_URL="https://<your-domain>/telegram/webhook" \
+  ./scripts/setup_telegram_runtime.sh
 
-# 2) webhook URL 등록 (HTTPS 공개 URL 필요)
-PYTHONPATH=src TELEGRAM_BOT_TOKEN="..." TELEGRAM_WEBHOOK_URL="https://<your-domain>/telegram/webhook" python3 scripts/configure_telegram_webhook.py
+# 2) webhook 서버 실행
+PYTHONPATH=src TELEGRAM_BOT_TOKEN="..." python3 scripts/serve_telegram_webhook.py
 
 # 3) cadence별 큐 생성
 PYTHONPATH=src python3 scripts/build_dispatch_queue.py daily
