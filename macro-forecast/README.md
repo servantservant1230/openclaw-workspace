@@ -1,5 +1,7 @@
 # Macro Forecast MVP
 
+> Telegram bot: `@econodevkr_bot` (subscription model)
+
 글로벌 매크로(환율/유가/실업률/CPI/정책금리) 신호를 바탕으로
 미국/한국 주식 및 한국 주요 자산 방향성을 daily/weekly/monthly로 요약하는 MVP.
 
@@ -34,11 +36,17 @@ PYTHONPATH=src python3 scripts/backtest_sample.py
 PYTHONPATH=src python3 scripts/rolling_backtest.py
 PYTHONPATH=src python3 scripts/sensitivity_sample.py
 
-# 구독 등록(예: 현재 채팅/텔레그램 대화방)
-PYTHONPATH=src python3 scripts/subscription_cli.py add --channel webchat --target current --cadence all
+# 구독 등록(운영자 수동)
+PYTHONPATH=src python3 scripts/subscription_cli.py add --channel telegram --target <chat_id> --cadence all
 
-# cadence별 발송 큐 생성(실제 발송은 OpenClaw message tool에서 처리)
+# 채팅 명령 처리(사용자 self-subscribe)
+PYTHONPATH=src python3 scripts/handle_subscription_command.py --channel telegram --target <chat_id> --text "/subscribe all"
+
+# cadence별 발송 큐 생성(옵션)
 PYTHONPATH=src python3 scripts/build_dispatch_queue.py daily
+
+# 텔레그램 실제 발송 (토큰은 환경변수)
+PYTHONPATH=src TELEGRAM_BOT_TOKEN="..." python3 scripts/send_telegram_reports.py daily
 ```
 
 참고:
