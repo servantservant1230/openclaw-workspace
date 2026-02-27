@@ -1,6 +1,6 @@
 # Macro Forecast MVP
 
-> Telegram bot: `@econodevkr_bot` (subscription model)
+> Telegram bot: `@econodevkr_bot` (subscription model, polling-first)
 
 글로벌 매크로(환율/유가/실업률/CPI/정책금리) 신호를 바탕으로
 미국/한국 주식 및 한국 주요 자산 방향성을 daily/weekly/monthly로 요약하는 MVP.

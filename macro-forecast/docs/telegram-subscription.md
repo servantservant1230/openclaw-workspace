@@ -2,6 +2,8 @@
 
 이 문서는 `econodevkr_bot` 구독형 리포트 흐름의 MVP 운영 방법을 설명합니다.
 
+> 권장: webhook보다 polling 우선 (`docs/polling-setup.md`)
+
 ## 사용자 입장(친구)
 1. 텔레그램에서 `@econodevkr_bot` 열기
 2. `/start`
