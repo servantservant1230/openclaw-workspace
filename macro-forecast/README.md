@@ -41,6 +41,7 @@ PYTHONPATH=src python3 scripts/subscription_cli.py add --channel telegram --targ
 
 # 채팅 명령 처리(사용자 self-subscribe)
 PYTHONPATH=src python3 scripts/handle_subscription_command.py --channel telegram --target <chat_id> --text "/subscribe all"
+PYTHONPATH=src python3 scripts/handle_subscription_command.py --channel telegram --target <chat_id> --text "/today"
 
 # cadence별 발송 큐 생성(옵션)
 PYTHONPATH=src python3 scripts/build_dispatch_queue.py daily

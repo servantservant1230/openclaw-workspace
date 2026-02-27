@@ -8,8 +8,10 @@
 1. 텔레그램에서 `@econodevkr_bot` 열기
 2. `/start`
 3. `/subscribe daily` 또는 `/subscribe all`
-4. 해지: `/unsubscribe`
-5. 상태: `/status`
+4. 오늘 리포트 즉시보기: `/today` (또는 `/today weekly`, `/today monthly`)
+5. 해지: `/unsubscribe`
+6. 상태: `/status`
+7. 도움말: `/help`
 
 ## 시스템 입장(백엔드)
 - 수신 명령은 webhook 서버(`serve_telegram_webhook.py`)에서 자동 처리
