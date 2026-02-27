@@ -1,0 +1,31 @@
+macro_inputs:
+  - us_cpi_yoy
+  - us_unemployment_rate
+  - fed_funds_rate
+  - us10y_yield
+  - dxy
+  - brent_usd
+  - usdkrw
+  - bok_base_rate
+  - kr_cpi_yoy
+
+targets:
+  us_indices:
+    - nasdaq
+    - qqq
+  us_tech_stocks:
+    - AAPL
+    - MSFT
+    - NVDA
+    - AMZN
+    - GOOGL
+    - META
+    - TSLA
+  kr_assets:
+    - kospi
+    - usdkrw
+    - kr_housing_momentum
+  kr_leaders:
+    - samsung_electronics
+    - sk_hynix
+    - naver
