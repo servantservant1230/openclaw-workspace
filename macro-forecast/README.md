@@ -42,8 +42,11 @@ PYTHONPATH=src python3 scripts/subscription_cli.py add --channel telegram --targ
 # 채팅 명령 처리(사용자 self-subscribe)
 PYTHONPATH=src python3 scripts/handle_subscription_command.py --channel telegram --target <chat_id> --text "/subscribe all"
 
-# cadence별 발송 큐 생성(실제 발송은 OpenClaw message tool에서 처리)
+# cadence별 발송 큐 생성(옵션)
 PYTHONPATH=src python3 scripts/build_dispatch_queue.py daily
+
+# 텔레그램 실제 발송 (토큰은 환경변수)
+PYTHONPATH=src TELEGRAM_BOT_TOKEN="..." python3 scripts/send_telegram_reports.py daily
 ```
 
 참고:
