@@ -49,7 +49,7 @@ def main() -> None:
     signals = build_signal_map(features)
     (OUT / "daily.md").write_text(build_daily_report(signals), encoding="utf-8")
     (OUT / "weekly.md").write_text(build_weekly_report(signals), encoding="utf-8")
-    (OUT / "monthly.md").write_text(build_monthly_report(signals), encoding="utf-8")
+    (OUT / "monthly.md").write_text(build_monthly_report(signals, features), encoding="utf-8")
 
     print("live_values_count:", len(snap.values))
     print("generated reports in:", OUT)

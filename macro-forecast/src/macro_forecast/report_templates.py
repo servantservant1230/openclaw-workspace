@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import Dict
 
 from .signals import DirectionResult
+from .scenario import build_asset_scenarios
 
 
 def _line(name: str, r: DirectionResult) -> str:
@@ -25,7 +26,7 @@ def build_weekly_report(signals: Dict[str, DirectionResult]) -> str:
     return f"# Weekly Macro Outlook\n\n## US\n{us_body}\n\n## KR\n{kr_body}\n"
 
 
-def build_monthly_report(signals: Dict[str, DirectionResult]) -> str:
+def build_monthly_report(signals: Dict[str, DirectionResult], features: Dict[str, float] | None = None) -> str:
     def pct(label: str) -> int:
         return {"UP": 60, "FLAT": 50, "DOWN": 40}[label]
 
@@ -34,6 +35,14 @@ def build_monthly_report(signals: Dict[str, DirectionResult]) -> str:
     for t in targets:
         if t in signals:
             lines.append(f"- {t}: 방향={signals[t].label}, base_prob~{pct(signals[t].label)}%")
+
+    scenario_map = build_asset_scenarios(features or {})
+    lines.append("\n## 시나리오 (상/중/하)")
+    for asset, sc in scenario_map.items():
+        lines.append(f"### {asset}")
+        lines.append(f"- Bull: {sc.bull}")
+        lines.append(f"- Base: {sc.base}")
+        lines.append(f"- Bear: {sc.bear}")
 
     lines.append("\n## 반증 조건")
     lines.append("- 금리/환율 급변 또는 지정학 이벤트가 발생하면 예측 신뢰도 하락")
