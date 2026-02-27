@@ -12,6 +12,7 @@
 - 월간 시나리오: 자산군별 Bull/Base/Bear 자동 생성
 - 신뢰도 태그: LOW/MED/HIGH confidence 표시
 - 월간 핵심 지표 요약 자동 삽입
+- 구독 모델(채널/대상/cadence) + 발송 큐 생성
 
 ## 제외 범위
 - 자동매매/주문 실행
@@ -32,11 +33,18 @@ PYTHONPATH=src python3 scripts/run_live_or_sample.py
 PYTHONPATH=src python3 scripts/backtest_sample.py
 PYTHONPATH=src python3 scripts/rolling_backtest.py
 PYTHONPATH=src python3 scripts/sensitivity_sample.py
+
+# 구독 등록(예: 현재 채팅/텔레그램 대화방)
+PYTHONPATH=src python3 scripts/subscription_cli.py add --channel webchat --target current --cadence all
+
+# cadence별 발송 큐 생성(실제 발송은 OpenClaw message tool에서 처리)
+PYTHONPATH=src python3 scripts/build_dispatch_queue.py daily
 ```
 
 참고:
 - `run_live_or_sample.py`는 실시간 레벨 스냅샷을 시도합니다.
 - `FRED_API_KEY`가 있으면 일부 거시지표(FRED)를 보강하고, 없어도 동작합니다.
+- 구독 방식은 "채널에서 이미 대화 중인 대상" 기준으로 저장하므로, 별도 봇 ID를 매번 수동 입력하는 절차를 최소화할 수 있습니다.
 
 출력:
 - `outputs/daily.md`
