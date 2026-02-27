@@ -3,3 +3,4 @@ outputs/
 *.pyc
 data/latest_levels.csv
 data/latest_features.csv
+data/subscribers.json
