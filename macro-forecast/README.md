@@ -25,9 +25,14 @@
 ## 실행
 ```bash
 PYTHONPATH=src python3 scripts/run_sample.py
+PYTHONPATH=src python3 scripts/run_live_or_sample.py
 PYTHONPATH=src python3 scripts/backtest_sample.py
 PYTHONPATH=src python3 scripts/sensitivity_sample.py
 ```
+
+참고:
+- `run_live_or_sample.py`는 실시간 레벨 스냅샷을 시도합니다.
+- `FRED_API_KEY`가 있으면 일부 거시지표(FRED)를 보강하고, 없어도 동작합니다.
 
 출력:
 - `outputs/daily.md`
