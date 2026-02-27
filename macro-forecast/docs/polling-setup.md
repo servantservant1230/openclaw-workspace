@@ -13,13 +13,25 @@ cd /Volumes/WORK_SSD/workspace/macro-forecast
 PYTHONPATH=src TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" python3 scripts/run_telegram_polling.py
 ```
 
-## 3) 리포트 자동 발송 cron
+## 3) launchd 등록 (재부팅 후 자동 실행)
 ```bash
-cd /Volumes/WORK_SSD/workspace
-./macro-forecast/scripts/install_cron.sh
+cd /Volumes/WORK_SSD/workspace/macro-forecast
+./scripts/install_launchd.sh
 ```
 
-## 4) 친구 사용법
+제거:
+```bash
+cd /Volumes/WORK_SSD/workspace/macro-forecast
+./scripts/uninstall_launchd.sh
+```
+
+## 4) 리포트 자동 발송 cron
+```bash
+cd /Volumes/WORK_SSD/workspace/macro-forecast
+./scripts/install_cron_local.sh
+```
+
+## 5) 친구 사용법
 - 친구가 `@econodevkr_bot` 열기
 - `/start`
 - `/subscribe daily|weekly|monthly|all`
