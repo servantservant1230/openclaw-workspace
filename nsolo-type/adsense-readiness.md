@@ -8,8 +8,9 @@
 - [x] About / Privacy / Terms 존재
 - [x] robots.txt / sitemap.xml / ads.txt 존재
 - [x] Contact 페이지 추가 (`/contact.html`)
+- [x] Vite build input에 `contact.html` 포함 (배포 누락 방지)
 - [x] 홈 네비게이션에서 Contact 접근 가능
-- [x] FAQ에 광고/정책 관련 안내 추가
+- [ ] 배포 후 URL 헬스체크(`check-deploy-urls.sh`) 200 확인
 
 ## 승인 후 단계
 1. AdSense 스크립트 (`adsbygoogle.js?client=...`) 삽입

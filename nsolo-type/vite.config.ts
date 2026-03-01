@@ -16,6 +16,7 @@ export default defineConfig({
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
         about: resolve(__dirname, 'about.html'),
+        contact: resolve(__dirname, 'contact.html'),
         'name-youngsoo': resolve(__dirname, 'name/youngsoo.html'),
         'name-youngho': resolve(__dirname, 'name/youngho.html'),
         'name-youngsik': resolve(__dirname, 'name/youngsik.html'),
